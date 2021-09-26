@@ -6,7 +6,7 @@
 /*   By: ztouzri <ztouzri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 02:26:48 by ztouzri           #+#    #+#             */
-/*   Updated: 2021/09/24 16:02:47 by ztouzri          ###   ########.fr       */
+/*   Updated: 2021/09/24 16:34:48 by ztouzri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,11 @@ t_info	initinfo(void)
 	return (infos);
 }
 
+void	printinfo(t_info infos)
+{
+	printf("no == %d, so == %d, we == %d, ea == %d\n f == %d, c == %d\n", infos.no, infos.so, infos.we, infos.ea, infos.f, infos.c);
+}
+
 t_info	parsinfo(int fd)
 {
 	t_info	infos;
@@ -40,6 +45,9 @@ t_info	parsinfo(int fd)
 		fillsouth(line, &infos);
 		fillwest(line, &infos);
 		filleast(line, &infos);
+		fillfloor(line, &infos);
+		fillceil(line, &infos);
+		printinfo(infos);
 		free(line);
 		ret = get_next_line(fd, &line);
 	}

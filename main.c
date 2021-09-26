@@ -6,7 +6,7 @@
 /*   By: ztouzri <ztouzri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 01:35:32 by ztouzri           #+#    #+#             */
-/*   Updated: 2021/09/24 15:59:59 by ztouzri          ###   ########.fr       */
+/*   Updated: 2021/09/24 16:23:18 by ztouzri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ int	main(int ac, char **av)
 		if (fd != -1)
 		{
 			infos = parsinfo(fd);
+			freeinfo(infos);
 		}
-		freeinfo(infos);
 		close(fd);
 	}
 	return (0);
