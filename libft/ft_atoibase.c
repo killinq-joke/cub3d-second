@@ -1,36 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_atoibase.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ztouzri <ztouzri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/24 01:35:32 by ztouzri           #+#    #+#             */
-/*   Updated: 2021/09/27 17:44:20 by ztouzri          ###   ########.fr       */
+/*   Created: 2021/09/26 22:07:28 by ztouzri           #+#    #+#             */
+/*   Updated: 2021/09/27 11:58:53 by ztouzri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "libft.h"
 
-int	main(int ac, char **av)
+int	whichindex(char *str, char c)
 {
-	int		fd;
-	t_info	infos;
+	int	i;
 
-	if (ac == 2)
+	i = 0;
+	while (str && str[i])
 	{
-		fd = open(av[1], O_RDONLY);
-		if (fd != -1)
-		{
-			infos = parsinfo(fd);
-			freeinfo(infos);
-		}
-		close(fd);
+		if (str[i] == c)
+			return (i);
+		i++;
 	}
-	printf("%zu\n", ft_atoibase("0012f", "0123456789abcdef"));
-	char *str = ft_itoabase(0x12f, "0123456789abcdef");
-	printf("%s\n", str);
-	free(str);
-	while (1);
-	return (0);
+	return (-1);
+}
+
+size_t	ft_atoibase(char *str, char *base)
+{
+	unsigned int	ret;
+	int				i;
+
+	ret = 0;
+	i = 0;
+	while (str[i])
+	{
+		ret *= ft_strlen(base);
+		if (whichindex(base, str[i]) == -1)
+			return (0);
+		ret += whichindex(base, str[i]);
+		i++;
+	}
+	return (ret);
 }

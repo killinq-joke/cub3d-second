@@ -6,7 +6,7 @@
 /*   By: ztouzri <ztouzri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 16:02:37 by ztouzri           #+#    #+#             */
-/*   Updated: 2021/09/26 21:47:12 by ztouzri          ###   ########.fr       */
+/*   Updated: 2021/09/26 22:01:18 by ztouzri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_bool	fillnorth(char *line, t_info *infos)
 			return (FALSE);
 		while (line[i] == ' ')
 			i++;
-		if (dotxpmcheck(&line[i]))
+		if (!dotxpmcheck(&line[i]))
 			return (FALSE);
 		infos->no = open(&line[i], O_RDONLY);
 		if (infos->no == -1)
@@ -44,7 +44,7 @@ t_bool	fillsouth(char *line, t_info *infos)
 			return (FALSE);
 		while (line[i] == ' ')
 			i++;
-		if (dotxpmcheck(&line[i]))
+		if (!dotxpmcheck(&line[i]))
 			return (FALSE);
 		infos->so = open(&line[i], O_RDONLY);
 		if (infos->so == -1)
@@ -65,7 +65,7 @@ t_bool	fillwest(char *line, t_info *infos)
 			return (FALSE);
 		while (line[i] == ' ')
 			i++;
-		if (dotxpmcheck(&line[i]))
+		if (!dotxpmcheck(&line[i]))
 			return (FALSE);
 		infos->we = open(&line[i], O_RDONLY);
 		if (infos->we == -1)
@@ -86,7 +86,7 @@ t_bool	filleast(char *line, t_info *infos)
 			return (FALSE);
 		while (line[i] == ' ')
 			i++;
-		if (dotxpmcheck(&line[i]))
+		if (!dotxpmcheck(&line[i]))
 			return (FALSE);
 		infos->ea = open(&line[i], O_RDONLY);
 		if (infos->ea == -1)

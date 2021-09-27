@@ -6,7 +6,7 @@
 /*   By: ztouzri <ztouzri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 11:11:30 by ztouzri           #+#    #+#             */
-/*   Updated: 2021/09/24 14:26:25 by ztouzri          ###   ########.fr       */
+/*   Updated: 2021/09/27 12:26:32 by ztouzri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,8 @@ char		*ft_trimquotes(char *str);
 void		ft_putstrnl(const char *str);
 int			ft_strisnum(char *str);
 int			ft_spacecount(char *line);
+size_t		ft_atoibase(char *str, char *base);
+char		*ft_itoabase(int nb, char *base);
 int			get_next_line(int fd, char **line);
 
 #endif

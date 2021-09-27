@@ -10,7 +10,7 @@ SRCS	= ft_strlen.c ft_atoi.c ft_bzero.c ft_calloc.c\
 		ft_putnbr_fd.c ft_split.c ft_putstr.c ft_putnbr.c ft_isin.c ft_atol.c\
 		ft_sort_int_tab.c ft_intisin.c ft_superiorintisin.c ft_tabncpy.c ft_swap.c\
 		ft_strcmp.c ft_atof.c ft_puterr.c ft_joinchar.c ft_putstrnl.c\
-		ft_strisnum.c ft_spacecount.c gnl.c\
+		ft_strisnum.c ft_spacecount.c ft_atoibase.c gnl.c ft_itoabase.c\
 
 OBJS		= ${SRCS:.c=.o}
 
@@ -23,7 +23,7 @@ BONUS_OBJS	= ${BONUS:.c=.o}
 NAME		= libft.a
 
 CC	= gcc
-CFLAGS	= -Wall -Wextra -Werror
+CFLAGS	= -Wall -Wextra -Werror -g
 RM	= rm -f
 
 .c.o:

@@ -4,3 +4,4 @@ file*
 .DS_Store
 *.a
 cub3D
+*.dSYM

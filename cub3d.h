@@ -6,7 +6,7 @@
 /*   By: ztouzri <ztouzri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 01:35:50 by ztouzri           #+#    #+#             */
-/*   Updated: 2021/09/24 16:25:15 by ztouzri          ###   ########.fr       */
+/*   Updated: 2021/09/26 22:00:09 by ztouzri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct s_info {
 
 //checker.c
 t_bool	dotcubcheck(char *str);
+t_bool	dotxpmcheck(char *str);
 t_bool	fullspacecheck(char *str);
 //parsing.c
 t_info	parsinfo(int fd);
