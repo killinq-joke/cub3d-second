@@ -1,31 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_join.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ztouzri <ztouzri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/24 01:35:32 by ztouzri           #+#    #+#             */
-/*   Updated: 2021/09/27 17:48:16 by ztouzri          ###   ########.fr       */
+/*   Created: 2021/09/28 21:29:12 by ztouzri           #+#    #+#             */
+/*   Updated: 2021/09/28 21:31:00 by ztouzri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "libft.h"
 
-int	main(int ac, char **av)
+char	**ft_join(char **split, char *str)
 {
-	int		fd;
-	t_info	infos;
+	int		i;
+	char	**join;
 
-	if (ac == 2)
-	{
-		fd = open(av[1], O_RDONLY);
-		if (fd != -1)
-		{
-			infos = parsinfo(fd);
-			freeinfo(infos);
-		}
-		close(fd);
-	}
-	return (0);
+	join = ft_calloc(ft_splitlen(split) + 2, sizeof (char *));
+	i = 0;
+	while (split && split[i])
+		i++;
+	join[i] = str;
+	return (join);
 }

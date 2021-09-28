@@ -31,8 +31,8 @@ char	*ft_joinfreechar(char *str, char c)
 
 char	*ft_itoabase(int nb, char *base)
 {
-	char	*res;
-	char	*tmp;
+	char		*res;
+	char		*tmp;
 
 	res = NULL;
 	if (nb > (int)ft_strlen(base))

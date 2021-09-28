@@ -1,31 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_splitlen.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ztouzri <ztouzri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/24 01:35:32 by ztouzri           #+#    #+#             */
-/*   Updated: 2021/09/27 17:48:16 by ztouzri          ###   ########.fr       */
+/*   Created: 2021/09/28 21:03:47 by ztouzri           #+#    #+#             */
+/*   Updated: 2021/09/28 21:04:39 by ztouzri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "libft.h"
 
-int	main(int ac, char **av)
+int	ft_splitlen(char **split)
 {
-	int		fd;
-	t_info	infos;
+	int	i;
 
-	if (ac == 2)
-	{
-		fd = open(av[1], O_RDONLY);
-		if (fd != -1)
-		{
-			infos = parsinfo(fd);
-			freeinfo(infos);
-		}
-		close(fd);
-	}
-	return (0);
+	i = 0;
+	while (split && split[i])
+		i++;
+	return (i);
 }

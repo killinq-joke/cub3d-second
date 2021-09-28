@@ -3,7 +3,7 @@ SO ./textures/2.xpm
 WE ./textures/3.xpm
 EA ./textures/4.xpm
 
-F 220,100,0
+F 220,100,15
 C 225,30,0
 
         1111111111111111111111111
