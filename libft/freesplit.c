@@ -1,29 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_join.c                                     :+:      :+:    :+:   */
+/*   freesplit.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ztouzri <ztouzri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/28 21:29:12 by ztouzri           #+#    #+#             */
-/*   Updated: 2021/09/28 21:31:00 by ztouzri          ###   ########.fr       */
+/*   Created: 2021/09/29 19:30:11 by ztouzri           #+#    #+#             */
+/*   Updated: 2021/09/29 19:31:38 by ztouzri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	**ft_join(char **split, char *str)
+void	freesplit(char **split)
 {
-	int		i;
-	char	**join;
+	int	i;
 
-	join = ft_calloc(ft_splitlen(split) + 2, sizeof (char *));
 	i = 0;
 	while (split && split[i])
 	{
-		join[i] = ft_strdup(split[i]);
+		free(split[i]);
 		i++;
 	}
-	join[i] = str;
-	return (join);
+	free(split);
 }
