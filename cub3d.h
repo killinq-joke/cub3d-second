@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ztouzri <ztouzri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mout <mout@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 01:35:50 by ztouzri           #+#    #+#             */
-/*   Updated: 2021/09/26 22:00:09 by ztouzri          ###   ########.fr       */
+/*   Updated: 2021/10/02 12:56:01 by mout             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ t_bool	dotcubcheck(char *str);
 t_bool	dotxpmcheck(char *str);
 t_bool	fullspacecheck(char *str);
 //parsing.c
-t_info	parsinfo(int fd);
+t_info	parsinfo(int fd, char *filename);
 //fill.c
 t_bool	fillnorth(char *line, t_info *infos);
 t_bool	fillsouth(char *line, t_info *infos);

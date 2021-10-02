@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ztouzri <ztouzri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mout <mout@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 11:11:30 by ztouzri           #+#    #+#             */
-/*   Updated: 2021/09/29 19:31:29 by ztouzri          ###   ########.fr       */
+/*   Updated: 2021/10/02 14:58:55 by mout             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ int			ft_splitlen(char **split);
 char		**ft_join(char **split, char *str);
 void		ft_printsplit(char **split);
 void		freesplit(char **split);
+char		*ft_padding(char *str, int width, char c);
 int			get_next_line(int fd, char **line);
 
 #endif

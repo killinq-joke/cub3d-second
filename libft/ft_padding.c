@@ -1,31 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_padding.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mout <mout@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/24 01:35:32 by ztouzri           #+#    #+#             */
-/*   Updated: 2021/10/02 11:41:30 by mout             ###   ########.fr       */
+/*   Created: 2021/10/02 14:54:07 by mout              #+#    #+#             */
+/*   Updated: 2021/10/02 15:05:46 by mout             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "libft.h"
 
-int	main(int ac, char **av)
+char	*ft_padding(char *str, int width, char c)
 {
-	int		fd;
-	t_info	infos;
+	int		i;
+	// char	*tmp;
 
-	if (ac == 2)
+	i = ft_strlen(str);
+	str = ft_strdup(str);
+	while (i < width)
 	{
-		fd = open(av[1], O_RDONLY);
-		if (fd != -1)
-		{
-			infos = parsinfo(fd, av[1]);
-			freeinfo(infos);
-		}
-		close(fd);
+		// tmp = str;
+		str = ft_joinchar(str, c);
+		// free(str);
+		i++;
 	}
-	return (0);
+	return (str);
 }

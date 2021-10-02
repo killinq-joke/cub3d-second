@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ztouzri <ztouzri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mout <mout@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 02:26:48 by ztouzri           #+#    #+#             */
-/*   Updated: 2021/09/29 19:38:34 by ztouzri          ###   ########.fr       */
+/*   Updated: 2021/10/02 15:00:48by mout             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,35 @@ void	printinfo(t_info infos)
 	printf("no == %d, so == %d, we == %d, ea == %d\n f == %d, c == %d\n", infos.no, infos.so, infos.we, infos.ea, infos.f, infos.c);
 }
 
-t_info	parsinfo(int fd)
+int	goline(int fd, int nbline, char *filename)
+{
+	int		i;
+	char	*tmp;
+	int		ret;
+
+	close(fd);
+	fd = open(filename, O_RDONLY);
+	ret = get_next_line(fd, &tmp);
+	i = 1;
+	while (ret > 0 && i < nbline)
+	{
+		ret = get_next_line(fd, &tmp);
+		i++;
+	}
+	return (fd);
+}
+
+t_info	parsinfo(int fd, char *filename)
 {
 	t_info	infos;
 	char	*line;
 	char	**tmp;
 	int		ret;
+	int		nbline;
+	int		maxlen;
 
 	infos = initinfo();
+	nbline = 0;
 	ret = get_next_line(fd, &line);
 	while (ret > 0 && !ismapstart(line))
 	{
@@ -67,11 +88,30 @@ t_info	parsinfo(int fd)
 		printinfo(infos);
 		free(line);
 		ret = get_next_line(fd, &line);
+		nbline++;
 	}
+	maxlen = 0;
+	while (ret > 0)
+	{
+		if ((int)ft_strlen(line) > maxlen)
+			maxlen = ft_strlen(line);
+		ret = get_next_line(fd, &line);
+	}
+	// goline(fd, nbline, filename);
+	close(fd);
+	fd = open(filename, O_RDONLY);
+	ret = get_next_line(fd, &line);
+	int i = 1;
+	while (ret > 0 && i < nbline)
+	{
+		ret = get_next_line(fd, &line);
+		i++;
+	}
+	//add spaces so that every line in map is equally sized
 	while (ret > 0)
 	{
 		tmp = infos.map;
-		infos.map = ft_join(infos.map, line);
+		infos.map = ft_join(infos.map, ft_padding(ft_strdup(line), maxlen, ' '));
 		freesplit(tmp);
 		ret = get_next_line(fd, &line);
 	}

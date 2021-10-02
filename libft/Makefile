@@ -11,7 +11,7 @@ SRCS	= ft_strlen.c ft_atoi.c ft_bzero.c ft_calloc.c\
 		ft_sort_int_tab.c ft_intisin.c ft_superiorintisin.c ft_tabncpy.c ft_swap.c\
 		ft_strcmp.c ft_atof.c ft_puterr.c ft_joinchar.c ft_putstrnl.c freesplit.c\
 		ft_strisnum.c ft_spacecount.c ft_atoibase.c gnl.c ft_itoabase.c ft_splitlen.c\
-		ft_join.c ft_printsplit.c\
+		ft_join.c ft_printsplit.c ft_padding.c\
 
 OBJS		= ${SRCS:.c=.o}
 
