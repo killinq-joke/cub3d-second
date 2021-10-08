@@ -72,29 +72,29 @@ t_info	parsinfo(int fd, char *filename)
 	char	**tmp;
 	int		ret;
 	int		nbline;
-	int		maxlen;
 
 	infos = initinfo();
 	nbline = 0;
 	ret = get_next_line(fd, &line);
 	while (ret > 0 && !ismapstart(line))
 	{
-		fillnorth(line, &infos);
-		fillsouth(line, &infos);
-		fillwest(line, &infos);
-		filleast(line, &infos);
-		fillfloor(line, &infos);
-		fillceil(line, &infos);
+		if (!fillnorth(line, &infos)
+			|| !fillsouth(line, &infos)
+			|| !fillwest(line, &infos)
+			|| !filleast(line, &infos)
+			|| !fillfloor(line, &infos)
+			|| !fillceil(line, &infos))
+			return (infos);
 		printinfo(infos);
 		free(line);
 		ret = get_next_line(fd, &line);
 		nbline++;
 	}
-	maxlen = 0;
+	infos.maxx = 0;
 	while (ret > 0)
 	{
-		if ((int)ft_strlen(line) > maxlen)
-			maxlen = ft_strlen(line);
+		if ((int)ft_strlen(line) > infos.maxx)
+			infos.maxx = ft_strlen(line);
 		ret = get_next_line(fd, &line);
 	}
 	// goline(fd, nbline, filename);
@@ -111,11 +111,19 @@ t_info	parsinfo(int fd, char *filename)
 	while (ret > 0)
 	{
 		tmp = infos.map;
-		infos.map = ft_join(infos.map, ft_padding(ft_strdup(line), maxlen, ' '));
+		infos.map = ft_join(infos.map, ft_padding(ft_strdup(line), infos.maxx, ' '));
 		freesplit(tmp);
 		ret = get_next_line(fd, &line);
 	}
+	tmp = infos.map;
+	infos.map = ft_join(infos.map, ft_padding(ft_strdup(line), infos.maxx, ' '));
+	freesplit(tmp);
 	// free(line);
+	if (!ismapgood(infos.map))
+	{
+		printf("Error\nInvalid Map\n");
+	}
+	
 	ft_printsplit(infos.map);
 	return (infos);
 }
