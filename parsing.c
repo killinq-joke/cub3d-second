@@ -95,35 +95,39 @@ t_info	parsinfo(int fd, char *filename)
 	{
 		if ((int)ft_strlen(line) > infos.maxx)
 			infos.maxx = ft_strlen(line);
+		free(line);
 		ret = get_next_line(fd, &line);
 	}
-	// goline(fd, nbline, filename);
+	free(line);
 	close(fd);
 	fd = open(filename, O_RDONLY);
 	ret = get_next_line(fd, &line);
-	int i = 1;
+	int i = 0;
 	while (ret > 0 && i < nbline)
 	{
+		free(line);
 		ret = get_next_line(fd, &line);
 		i++;
 	}
 	//add spaces so that every line in map is equally sized
 	while (ret > 0)
 	{
+		free(line);
 		tmp = infos.map;
-		infos.map = ft_join(infos.map, ft_padding(ft_strdup(line), infos.maxx, ' '));
+		infos.map = ft_join(infos.map, ft_padding(line, infos.maxx, ' '));
 		freesplit(tmp);
 		ret = get_next_line(fd, &line);
 	}
 	tmp = infos.map;
-	infos.map = ft_join(infos.map, ft_padding(ft_strdup(line), infos.maxx, ' '));
+	infos.map = ft_join(infos.map, ft_padding(line, infos.maxx, ' '));
 	freesplit(tmp);
-	// free(line);
+	free(line);
 	if (!ismapgood(infos.map))
 	{
 		printf("Error\nInvalid Map\n");
+		exit(1);
 	}
-	
-	ft_printsplit(infos.map);
+	infos.maxy = ft_splitlen(infos.map);
+	// ft_printsplit(infos.map);
 	return (infos);
 }

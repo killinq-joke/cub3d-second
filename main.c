@@ -6,7 +6,7 @@
 /*   By: ztouzri <ztouzri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 01:35:32 by ztouzri           #+#    #+#             */
-/*   Updated: 2021/10/07 22:12:30 by ztouzri          ###   ########.fr       */
+/*   Updated: 2021/10/11 14:16:26 by ztouzri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,65 +24,47 @@ int	keypress(int key, t_info *infos)
 {
 	if (key == W)
 	{
-		infos->player.speed = 1;
+		infos->player.w = TRUE;
 	}
 	if (key == S)
 	{
-		infos->player.speed = 1;
+		infos->player.s = TRUE;
 	}
 	if (key == A)
 	{
-		infos->player.speed = 1;
+		infos->player.a = TRUE;
 	}
 	if (key == D)
 	{
-		infos->player.speed = 1;
+		infos->player.d = TRUE;
 	}
+	if (key == SHIFT)
+		infos->player.speed = 2;
 	if (key == ESC)
 		destroy_window(infos);
 	return (1);
 }
 
-void	ft_putpixel(t_img *img, int x, int y, int color)
+int	keyrelease(int key, t_info *infos)
 {
-	char	*dst;
-
-	dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
-	*(unsigned int *)dst = color;
-}
-
-void	printminimapblock(int y, int x)
-{
-	int	ymax;
-	int	xmax;
-
-	ymax = y + 50;
-	xmax = x + 50;
-	while (y < ymax)
+	if (key == W)
 	{
-		while (x < xmax)
-		{
-			ft_putpixel(&infos->img, x, y, 0xFFFFFF);
-			x++;
-		}
-		y++;
+		infos->player.w = FALSE;
 	}
-}
-
-int	printminimap(t_info *infos)
-{
-	int	x;
-	int	y;
-
-	while (y < infos->)
+	if (key == S)
 	{
-		while (x < infos->)
-		{
-			x++;
-		}
-		y++;
+		infos->player.s = FALSE;
 	}
-	mlx_put_image_to_window(infos->mlx, infos->win, infos->img.img, 0, 0);
+	if (key == A)
+	{
+		infos->player.a = FALSE;
+	}
+	if (key == D)
+	{
+		infos->player.d = FALSE;
+	}
+	if (key == SHIFT)
+		infos->player.speed = 1;
 	return (1);
 }
 
@@ -109,11 +91,15 @@ int	main(int ac, char **av)
 			infos.mlx = mlx_init();
 			infos.win = mlx_new_window(infos.mlx, 1920, 1080, "cub3D");
 			mlx_hook(infos.win, 17, 0L, destroy_window, &infos);
-			mlx_hook(infos.win, 02, 1L<<0, keypress, &infos);
+			mlx_hook(infos.win, 02, 1L << 0, keypress, &infos);
+			mlx_hook(infos.win, 03, 1L << 1, keyrelease, &infos);
+			img.img = mlx_new_image(infos.mlx, 1920, 1080);
 			img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel,
 					&img.line_length, &img.endian);
-			img.img = mlx_new_image(infos.mlx, 1920, 1080);
 			infos.img = img;
+			infos.blockmeter = 50;
+			infos.player.speed = 1;
+			printminimap(&infos);
 			mlx_loop_hook(infos.mlx, printminimap, &infos);
 			mlx_loop(infos.mlx);
 		}

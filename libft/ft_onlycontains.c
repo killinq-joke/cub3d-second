@@ -1,30 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_padding.c                                       :+:      :+:    :+:   */
+/*   ft_onlycontains.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ztouzri <ztouzri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/02 14:54:07 by mout              #+#    #+#             */
-/*   Updated: 2021/10/10 19:41:00 by ztouzri          ###   ########.fr       */
+/*   Created: 2021/10/10 15:35:10 by ztouzri           #+#    #+#             */
+/*   Updated: 2021/10/10 15:36:11 by ztouzri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_padding(char *str, int width, char c)
+int	ft_onlycontains(char *str, char c)
 {
-	int		i;
-	char	*tmp;
+	int	i;
 
-	i = ft_strlen(str);
-	str = ft_strdup(str);
-	while (i < width)
+	i = 0;
+	while (str && str[i])
 	{
-		tmp = str;
-		str = ft_joinchar(str, c);
-		free(tmp);
-		i++;
+		if (str[i] != c)
+			return (0);
 	}
-	return (str);
+	return (1);
 }

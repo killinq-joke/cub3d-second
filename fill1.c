@@ -25,6 +25,7 @@ int	gethex(char *line)
 	r = ft_atoi(split[0]);
 	g = ft_atoi(split[1]);
 	b = ft_atoi(split[2]);
+	freesplit(split);
 	return (r * 256 * 256 + g * 256 + b);
 }
 
@@ -39,7 +40,6 @@ t_bool	fillfloor(char *line, t_info *infos)
 			return (FALSE);
 		while (line[i] == ' ')
 			i++;
-		printf("hex = %x = %d\n", gethex(&line[i]), gethex(&line[i]));
 		infos->f = gethex(&line[i]);
 		if (infos->c == -1)
 			return (FALSE);

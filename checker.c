@@ -6,7 +6,7 @@
 /*   By: ztouzri <ztouzri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 02:15:53 by ztouzri           #+#    #+#             */
-/*   Updated: 2021/10/06 18:04:12 by ztouzri          ###   ########.fr       */
+/*   Updated: 2021/10/10 17:25:12 by ztouzri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,19 +70,6 @@ t_bool	iscorrectmapline(char *line)
 	return (TRUE);
 }
 
-t_bool	crosscheck(char **map, int y, int x)
-{
-	if (map[y - 1][x] == ' '
-	|| map[y + 1][x] == ' '
-	|| map[y][x - 1] == ' '
-	|| map[y][x + 1] == ' ')
-	{
-		printf("y == %d x == %d\n", y, x);
-		return (FALSE);
-	}
-	return (TRUE);
-}
-
 t_bool	tcheck(char **map, int x)
 {
 	if (map[1][x] == ' '
@@ -112,20 +99,33 @@ t_bool	righttcheck(char **map, int y, int x)
 
 t_bool	bottomtcheck(char **map, int y, int x)
 {
-	int	i;
-
-	i = 0;
-	while (map[y][i])
-	{
-		if (ft_isin("0NSWE", map[y][i]))
-			return (FALSE);
-		printf("%s\n", &map[y][i]);
-		i++;
-	}
+	if (ft_isin("0NSWE", map[y][x]))
+		return (FALSE);
 	if (map[y - 1][x] == ' '
 	|| map[y][x - 1] == ' '
 	|| map[y][x + 1] == ' ')
 		return (FALSE);
+	return (TRUE);
+}
+
+t_bool	crosscheck(char **map, int y, int x)
+{
+	if (y == 0 && !tcheck(map, y))
+		return (FALSE);
+	if (x == 0 && !lefttcheck(map, y))
+		return (FALSE);
+	if (y == ft_splitlen(map) - 1 && !bottomtcheck(map, y, x))
+		return (FALSE);
+	if (x == (int)ft_strlen(map[y]) - 1 && !righttcheck(map, y, x))
+		return (FALSE);
+	if (map[y - 1][x] == ' '
+	|| map[y + 1][x] == ' '
+	|| map[y][x - 1] == ' '
+	|| map[y][x + 1] == ' ')
+	{
+		printf("y == %d x == %d\n", y, x);
+		return (FALSE);
+	}
 	return (TRUE);
 }
 
@@ -144,29 +144,9 @@ t_bool	ismapgood(char **map)
 		x = 0;
 		while (map[y][x])
 		{
-			if (map[y][x] == '0')
+			if (ft_isin("0NSEW", map[y][x]))
 			{
-				if (y == 0)
-				{
-					if (!tcheck(map, x))
-						return (FALSE);
-				}
-				else if (x == 0)
-				{
-					if (!lefttcheck(map, y))
-						return (FALSE);
-				}
-				else if (x == (int)ft_strlen(map[y]) - 1)
-				{
-					if (!righttcheck(map, y, x))
-						return (FALSE);
-				}
-				else if (y == ft_splitlen(map) - 1)
-				{
-					if (!bottomtcheck(map, y, x))
-						return (FALSE);
-				}
-				else if (!crosscheck(map, y, x))
+				if (!crosscheck(map, y, x))
 					return (FALSE);
 			}
 			x++;

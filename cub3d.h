@@ -6,7 +6,7 @@
 /*   By: ztouzri <ztouzri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 01:35:50 by ztouzri           #+#    #+#             */
-/*   Updated: 2021/10/07 22:14:04 by ztouzri          ###   ########.fr       */
+/*   Updated: 2021/10/11 14:14:34 by ztouzri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # define A 0
 # define D 2
 # define ESC 53
+# define SHIFT 257
 
 typedef enum e_bool {
 	FALSE,
@@ -31,9 +32,13 @@ typedef enum e_bool {
 }				t_bool;
 
 typedef struct s_pl {
-	int	x;
-	int	y;
-	int	speed;
+	int		x;
+	int		y;
+	t_bool	w;
+	t_bool	a;
+	t_bool	s;
+	t_bool	d;
+	int		speed;
 }				t_pl;
 
 typedef struct s_img {
@@ -56,6 +61,7 @@ typedef struct s_info {
 	int		mapy;
 	int		maxx;
 	int		maxy;
+	int		blockmeter;
 	t_pl	player;
 	void	*mlx;
 	void	*win;
@@ -77,5 +83,10 @@ t_bool	filleast(char *line, t_info *infos);
 t_bool	fillfloor(char *line, t_info *infos);
 t_bool	fillceil(char *line, t_info *infos);
 void	freeinfo(t_info infos);
+//print.c
+void	ft_putpixel(t_img *img, int x, int y, int color);
+void	printminimapblock(int y, int x, t_info *infos);
+int		printplayer(t_info *infos);
+int		printminimap(t_info *infos);
 
 #endif

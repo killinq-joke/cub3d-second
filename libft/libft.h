@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mout <mout@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ztouzri <ztouzri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 11:11:30 by ztouzri           #+#    #+#             */
-/*   Updated: 2021/10/02 14:58:55 by mout             ###   ########.fr       */
+/*   Updated: 2021/10/10 15:37:56 by ztouzri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,5 +95,6 @@ void		ft_printsplit(char **split);
 void		freesplit(char **split);
 char		*ft_padding(char *str, int width, char c);
 int			get_next_line(int fd, char **line);
+int			ft_onlycontains(char *str, char c);
 
 #endif
