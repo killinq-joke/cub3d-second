@@ -6,7 +6,7 @@
 /*   By: ztouzri <ztouzri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 20:42:29 by ztouzri           #+#    #+#             */
-/*   Updated: 2021/10/11 14:15:42 by ztouzri          ###   ########.fr       */
+/*   Updated: 2021/10/12 02:13:07 by ztouzri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,35 @@ void	ft_putpixel(t_img *img, int x, int y, int color)
 
 	dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
 	*(unsigned int *)dst = color;
+}
+
+//CAH SOH TOA
+// cos (angle) = adj / hyp
+// sin (angle) = op / hyp
+// tan (angle) = op / adj
+void	printvert(t_info *infos)
+{
+	double	angle;
+	double	adj;
+	double	op;
+
+	angle = 40;
+	adj = abs(infos->player.y - (infos->player.y - infos->player.y % infos->blockmeter));
+	op = tan(angle * M_PI / 180) * adj;
+	ft_putpixel(&infos->img, infos->player.x + op, infos->player.y - infos->player.y % infos->blockmeter, 0x0000FF);
+}
+
+void	printhori(t_info *infos)
+{
+	double	angle;
+	double	adj;
+	double	op;
+
+	angle = 40;
+	adj = abs(infos->blockmeter - infos->player.x % infos->blockmeter);
+	op = tan(fabs(90 - angle) * M_PI / 180) * adj;
+	ft_putpixel(&infos->img, infos->player.x + adj, infos->player.y - op, 0x0000FF);
+	printf("%d\n", infos->blockmeter - infos->player.x % infos->blockmeter);
 }
 
 void	printminimapblock(int y, int x, t_info *infos)
@@ -61,7 +90,6 @@ int	printplayer(t_info *infos)
 
 	x = infos->player.x / infos->blockmeter;
 	y = infos->player.y / infos->blockmeter;
-	printf("x == %d, y == %d\n", x, y);
 	if (infos->player.w && infos->map[y][x] != '1')
 		infos->player.y -= infos->player.speed;
 	if (infos->player.s && infos->map[y][x] != '1')
@@ -91,6 +119,8 @@ int	printminimap(t_info *infos)
 		y++;
 	}
 	printplayer(infos);
+	printvert(infos);
+	printhori(infos);
 	mlx_put_image_to_window(infos->mlx, infos->win, infos->img.img, 0, 0);
 	return (1);
 }

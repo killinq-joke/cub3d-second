@@ -6,7 +6,7 @@
 /*   By: ztouzri <ztouzri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 01:35:50 by ztouzri           #+#    #+#             */
-/*   Updated: 2021/10/11 14:14:34 by ztouzri          ###   ########.fr       */
+/*   Updated: 2021/10/11 14:59:13 by ztouzri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@
 # define S 1
 # define A 0
 # define D 2
+# define LEFTARR 123
+# define RIGHTARR 124
 # define ESC 53
 # define SHIFT 257
 
@@ -34,6 +36,7 @@ typedef enum e_bool {
 typedef struct s_pl {
 	int		x;
 	int		y;
+	double	angle;
 	t_bool	w;
 	t_bool	a;
 	t_bool	s;
