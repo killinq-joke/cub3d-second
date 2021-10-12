@@ -12,17 +12,18 @@
 
 #include "cub3d.h"
 
-t_info	initinfo(void)
+t_info	*initinfo(void)
 {
-	t_info	infos;
+	t_info	*infos;
 
-	infos.no = 0;
-	infos.so = 0;
-	infos.we = 0;
-	infos.ea = 0;
-	infos.f = 0;
-	infos.c = 0;
-	infos.map = NULL;
+	infos = ft_calloc(1, sizeof (t_info));
+	infos->no = 0;
+	infos->so = 0;
+	infos->we = 0;
+	infos->ea = 0;
+	infos->f = 0;
+	infos->c = 0;
+	infos->map = NULL;
 	return (infos);
 }
 
@@ -42,9 +43,9 @@ int	ismapstart(char *line)
 	return (0);
 }
 
-void	printinfo(t_info infos)
+void	printinfo(t_info *infos)
 {
-	printf("no == %d, so == %d, we == %d, ea == %d\n f == %d, c == %d\n", infos.no, infos.so, infos.we, infos.ea, infos.f, infos.c);
+	printf("no == %d, so == %d, we == %d, ea == %d\n f == %d, c == %d\n", infos->no, infos->so, infos->we, infos->ea, infos->f, infos->c);
 }
 
 int	goline(int fd, int nbline, char *filename)
@@ -65,36 +66,33 @@ int	goline(int fd, int nbline, char *filename)
 	return (fd);
 }
 
-t_info	parsinfo(int fd, char *filename)
+t_info	*parsinfo(int fd, char *filename, t_info *infos)
 {
-	t_info	infos;
 	char	*line;
 	char	**tmp;
 	int		ret;
 	int		nbline;
 
-	infos = initinfo();
 	nbline = 0;
 	ret = get_next_line(fd, &line);
 	while (ret > 0 && !ismapstart(line))
 	{
-		if (!fillnorth(line, &infos)
-			|| !fillsouth(line, &infos)
-			|| !fillwest(line, &infos)
-			|| !filleast(line, &infos)
-			|| !fillfloor(line, &infos)
-			|| !fillceil(line, &infos))
+		if (!fillnorth(line, infos)
+			|| !fillsouth(line, infos)
+			|| !fillwest(line, infos)
+			|| !filleast(line, infos)
+			|| !fillfloor(line, infos)
+			|| !fillceil(line, infos))
 			return (infos);
-		printinfo(infos);
 		free(line);
 		ret = get_next_line(fd, &line);
 		nbline++;
 	}
-	infos.maxx = 0;
+	infos->maxx = 0;
 	while (ret > 0)
 	{
-		if ((int)ft_strlen(line) > infos.maxx)
-			infos.maxx = ft_strlen(line);
+		if ((int)ft_strlen(line) > infos->maxx)
+			infos->maxx = ft_strlen(line);
 		free(line);
 		ret = get_next_line(fd, &line);
 	}
@@ -112,22 +110,22 @@ t_info	parsinfo(int fd, char *filename)
 	//add spaces so that every line in map is equally sized
 	while (ret > 0)
 	{
-		free(line);
-		tmp = infos.map;
-		infos.map = ft_join(infos.map, ft_padding(line, infos.maxx, ' '));
+		// free(line);
+		tmp = infos->map;
+		infos->map = ft_join(infos->map, ft_padding(line, infos->maxx, ' '));
 		freesplit(tmp);
 		ret = get_next_line(fd, &line);
 	}
-	tmp = infos.map;
-	infos.map = ft_join(infos.map, ft_padding(line, infos.maxx, ' '));
+	ft_printsplit(infos->map);
+	tmp = infos->map;
+	infos->map = ft_join(tmp, ft_padding(line, infos->maxx, ' '));
 	freesplit(tmp);
 	free(line);
-	if (!ismapgood(infos.map))
+	if (!ismapgood(infos->map))
 	{
 		printf("Error\nInvalid Map\n");
 		exit(1);
 	}
-	infos.maxy = ft_splitlen(infos.map);
-	// ft_printsplit(infos.map);
+	infos->maxy = ft_splitlen(infos->map);
 	return (infos);
 }

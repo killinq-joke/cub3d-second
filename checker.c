@@ -6,7 +6,7 @@
 /*   By: ztouzri <ztouzri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 02:15:53 by ztouzri           #+#    #+#             */
-/*   Updated: 2021/10/10 17:25:12 by ztouzri          ###   ########.fr       */
+/*   Updated: 2021/10/12 15:43:32 by ztouzri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ t_bool	iscorrectmapline(char *line)
 	i = 0;
 	while (line[i])
 	{
+		printf("-----%s\n", &line[i]);
 		if (!ft_isin("10 NSEW", line[i]))
 			return (FALSE);
 		i++;
@@ -133,9 +134,11 @@ t_bool	ismapgood(char **map)
 {
 	int	y;
 	int	x;
+	int	nbplayer;
 
 	if (!map)
 		return (FALSE);
+	nbplayer = 0;
 	y = 0;
 	while (map[y])
 	{
@@ -149,9 +152,13 @@ t_bool	ismapgood(char **map)
 				if (!crosscheck(map, y, x))
 					return (FALSE);
 			}
+			if (ft_isin("NSEW", map[y][x]))
+				nbplayer++;
 			x++;
 		}
 		y++;
 	}
+	if (!nbplayer || nbplayer > 1)
+		return (FALSE);
 	return (TRUE);
 }

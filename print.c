@@ -6,7 +6,7 @@
 /*   By: ztouzri <ztouzri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 20:42:29 by ztouzri           #+#    #+#             */
-/*   Updated: 2021/10/12 02:13:07 by ztouzri          ###   ########.fr       */
+/*   Updated: 2021/10/12 14:52:25 by ztouzri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,25 +26,21 @@ void	ft_putpixel(t_img *img, int x, int y, int color)
 // tan (angle) = op / adj
 void	printvert(t_info *infos)
 {
-	double	angle;
 	double	adj;
 	double	op;
 
-	angle = 40;
 	adj = abs(infos->player.y - (infos->player.y - infos->player.y % infos->blockmeter));
-	op = tan(angle * M_PI / 180) * adj;
+	op = tan(infos->player.angle * M_PI / 180) * adj;
 	ft_putpixel(&infos->img, infos->player.x + op, infos->player.y - infos->player.y % infos->blockmeter, 0x0000FF);
 }
 
 void	printhori(t_info *infos)
 {
-	double	angle;
 	double	adj;
 	double	op;
 
-	angle = 40;
 	adj = abs(infos->blockmeter - infos->player.x % infos->blockmeter);
-	op = tan(fabs(90 - angle) * M_PI / 180) * adj;
+	op = tan(fabs(90 - infos->player.angle) * M_PI / 180) * adj;
 	ft_putpixel(&infos->img, infos->player.x + adj, infos->player.y - op, 0x0000FF);
 	printf("%d\n", infos->blockmeter - infos->player.x % infos->blockmeter);
 }

@@ -20,11 +20,14 @@ int	gethex(char *line)
 	int		b;
 
 	split = ft_split(line, ',');
-	if (!ft_strisnum(split[0]) || !ft_strisnum(split[1]) || !ft_strisnum(split[2]))
+	if (!ft_strisnum(split[0]) || !ft_strisnum(split[1]) || !ft_strisnum(split[2])
+	|| ft_splitlen(split) != 3)
 		return (-1);
 	r = ft_atoi(split[0]);
 	g = ft_atoi(split[1]);
 	b = ft_atoi(split[2]);
+	if (r > 255 || r < 0 || g > 255 || g < 0 || b > 255 || b < 0)
+		return (-1);
 	freesplit(split);
 	return (r * 256 * 256 + g * 256 + b);
 }
@@ -41,7 +44,7 @@ t_bool	fillfloor(char *line, t_info *infos)
 		while (line[i] == ' ')
 			i++;
 		infos->f = gethex(&line[i]);
-		if (infos->c == -1)
+		if (infos->f == -1)
 			return (FALSE);
 		return (TRUE);
 	}

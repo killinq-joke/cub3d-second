@@ -6,7 +6,7 @@
 /*   By: ztouzri <ztouzri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 01:35:50 by ztouzri           #+#    #+#             */
-/*   Updated: 2021/10/11 14:59:13 by ztouzri          ###   ########.fr       */
+/*   Updated: 2021/10/12 20:29:03 by ztouzri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,19 +77,25 @@ t_bool	dotxpmcheck(char *str);
 t_bool	fullspacecheck(char *str);
 t_bool	ismapgood(char **map);
 //parsing.c
-t_info	parsinfo(int fd, char *filename);
-//fill.c
+t_info	*initinfo(void);
+t_info	*parsinfo(int fd, char *filename, t_info *infos);
+//fill.c;
 t_bool	fillnorth(char *line, t_info *infos);
 t_bool	fillsouth(char *line, t_info *infos);
 t_bool	fillwest(char *line, t_info *infos);
 t_bool	filleast(char *line, t_info *infos);
 t_bool	fillfloor(char *line, t_info *infos);
 t_bool	fillceil(char *line, t_info *infos);
-void	freeinfo(t_info infos);
+void	freeinfo(t_info *infos);
 //print.c
 void	ft_putpixel(t_img *img, int x, int y, int color);
 void	printminimapblock(int y, int x, t_info *infos);
 int		printplayer(t_info *infos);
 int		printminimap(t_info *infos);
+//events.c
+int		destroy_window(t_info *infos);
+int		keypress(int key, t_info *infos);
+int		keyrelease(int key, t_info *infos);
+int		motion(int x, int y, t_info *infos);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: ztouzri <ztouzri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 16:02:37 by ztouzri           #+#    #+#             */
-/*   Updated: 2021/09/26 22:01:18 by ztouzri          ###   ########.fr       */
+/*   Updated: 2021/10/12 16:59:48 by ztouzri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_bool	fillnorth(char *line, t_info *infos)
 	i = 2;
 	if (!ft_strncmp("NO ", line, 3))
 	{
-		if (infos->no)
+		if (infos->no != 0)
 			return (FALSE);
 		while (line[i] == ' ')
 			i++;
