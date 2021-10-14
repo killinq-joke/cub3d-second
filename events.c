@@ -6,7 +6,7 @@
 /*   By: ztouzri <ztouzri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 15:28:16 by ztouzri           #+#    #+#             */
-/*   Updated: 2021/10/12 20:29:30 by ztouzri          ###   ########.fr       */
+/*   Updated: 2021/10/14 14:54:06 by ztouzri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ int	destroy_window(t_info *infos)
 
 int	keypress(int key, t_info *infos)
 {
-	printf("key == %d\n", key);
 	if (key == W)
 	{
 		infos->player.w = TRUE;
@@ -43,13 +42,13 @@ int	keypress(int key, t_info *infos)
 		infos->player.speed = 2;
 	if (key == LEFTARR)
 	{
-		if (infos->player.angle == 0)
+		if (infos->player.angle <= 0)
 			infos->player.angle = 360;
 		infos->player.angle--;
 	}
 	if (key == RIGHTARR)
 	{
-		if (infos->player.angle == 360)
+		if (infos->player.angle >= 360)
 			infos->player.angle = -1;
 		infos->player.angle++;
 	}

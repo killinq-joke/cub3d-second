@@ -6,7 +6,7 @@
 /*   By: ztouzri <ztouzri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 01:35:50 by ztouzri           #+#    #+#             */
-/*   Updated: 2021/10/12 20:29:03 by ztouzri          ###   ########.fr       */
+/*   Updated: 2021/10/14 14:21:23 by ztouzri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,24 @@ typedef enum e_bool {
 	TRUE,
 }				t_bool;
 
+typedef struct s_ray {
+	double	x;
+	double	y;
+	double	adj;
+	double	op;
+	double	xa;
+	double	ya;
+}				t_ray;
+
 typedef struct s_pl {
-	int		x;
-	int		y;
+	double		x;
+	double		y;
 	double	angle;
 	t_bool	w;
 	t_bool	a;
 	t_bool	s;
 	t_bool	d;
-	int		speed;
+	double		speed;
 }				t_pl;
 
 typedef struct s_img {
