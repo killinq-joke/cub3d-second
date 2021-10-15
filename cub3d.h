@@ -6,7 +6,7 @@
 /*   By: ztouzri <ztouzri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 01:35:50 by ztouzri           #+#    #+#             */
-/*   Updated: 2021/10/14 14:21:23 by ztouzri          ###   ########.fr       */
+/*   Updated: 2021/10/15 17:16:34 by ztouzri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ typedef struct s_pl {
 	double		x;
 	double		y;
 	double	angle;
+	t_bool	left;
+	t_bool	right;
 	t_bool	w;
 	t_bool	a;
 	t_bool	s;

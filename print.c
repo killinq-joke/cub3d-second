@@ -23,10 +23,10 @@ void	ft_putpixel(t_img *img, int x, int y, int color)
 	}
 }
 
-void	dda(double xdest, double ydest, t_info *infos)
-{
+// void	dda(double xdest, double ydest, t_info *infos)
+// {
 	
-}
+// }
 
 void	printvert(t_info *infos)
 {
@@ -53,7 +53,7 @@ void	printvert(t_info *infos)
 		y = r.y / infos->blockmeter;
 		ft_putpixel(&infos->img, r.x, r.y, 0xFF0000);
 	}
-	dda(r.x, r.y, infos);
+	// dda(r.x, r.y, infos);
 }
 
 void	printhori(t_info *infos)
@@ -143,6 +143,18 @@ int	printplayer(t_info *infos)
 		infos->player.x -= infos->player.speed;
 	if (infos->player.d && infos->map[y][x] != '1')
 		infos->player.x += infos->player.speed;
+	if (infos->player.left)
+	{
+		if (infos->player.angle <= 0)
+			infos->player.angle = 360;
+		infos->player.angle--;
+	}
+	if (infos->player.right)
+	{
+		if (infos->player.angle >= 360)
+			infos->player.angle = -1;
+		infos->player.angle++;
+	}
 	ft_putpixel(&infos->img, infos->player.x, infos->player.y, 0x00FF00);
 	return (1);
 }

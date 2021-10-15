@@ -6,7 +6,7 @@
 /*   By: ztouzri <ztouzri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 15:28:16 by ztouzri           #+#    #+#             */
-/*   Updated: 2021/10/14 14:54:06 by ztouzri          ###   ########.fr       */
+/*   Updated: 2021/10/15 17:17:52 by ztouzri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,17 @@ int	keypress(int key, t_info *infos)
 		infos->player.speed = 2;
 	if (key == LEFTARR)
 	{
-		if (infos->player.angle <= 0)
-			infos->player.angle = 360;
-		infos->player.angle--;
+		infos->player.left = TRUE;
+		// if (infos->player.angle <= 0)
+		// 	infos->player.angle = 360;
+		// infos->player.angle--;
 	}
 	if (key == RIGHTARR)
 	{
-		if (infos->player.angle >= 360)
-			infos->player.angle = -1;
-		infos->player.angle++;
+		infos->player.right = TRUE;
+		// if (infos->player.angle >= 360)
+		// 	infos->player.angle = -1;
+		// infos->player.angle++;
 	}
 	if (key == ESC)
 		destroy_window(infos);
@@ -77,6 +79,10 @@ int	keyrelease(int key, t_info *infos)
 	}
 	if (key == SHIFT)
 		infos->player.speed = 1;
+	if (key == LEFTARR)
+		infos->player.left = FALSE;
+	if (key == RIGHTARR)
+		infos->player.right = FALSE;
 	return (1);
 }
 
