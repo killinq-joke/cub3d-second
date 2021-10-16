@@ -62,12 +62,12 @@ void	printvertupright(t_info *infos)
 	r.y -= r.adj;
 	ft_putpixel(&infos->img, r.x, r.y, 0xFFFFFF);
 	r.ya = -infos->blockmeter;
-	r.xa = infos->blockmeter / tan(fabs(infos->player.angle - 90) * M_PI / 180);
+	r.xa = infos->blockmeter / tan(angletorad(fabs(infos->player.angle - 90)));
 	continueline(&r, infos);
 	// dda(r.x, r.y, infos);
 }
 
-void	printhoriupright(t_info *infos)
+double	printhoriupright(t_info *infos)
 {
 	t_ray	r;
 
@@ -81,15 +81,9 @@ void	printhoriupright(t_info *infos)
 	r.xa = infos->blockmeter;
 	r.ya = -infos->blockmeter / tan(infos->player.angle * M_PI / 180);
 	continueline(&r, infos);
-	// while (y > -1 && y < infos->maxy && x > -1 && x < infos->maxx && infos->map[y][x] != '1')
-	// {
-	// 	r.x += r.xa;
-	// 	r.y += r.ya;
-	// 	x = r.x / infos->blockmeter;
-	// 	y = r.y / infos->blockmeter;
-	// 	ft_putpixel(&infos->img, r.x, r.y, 0xFF0000);
-	// }
 	// dda(r.x, r.y, infos);
+	// return (distance(&r, infos));
+	return (1);
 }
 
 void	printvertdownright(t_info *infos)
@@ -106,7 +100,6 @@ void	printvertdownright(t_info *infos)
 	r.ya = infos->blockmeter;
 	r.xa = infos->blockmeter / tan(fabs(90 - infos->player.angle) * M_PI / 180);
 	continueline(&r, infos);
-	// printf("adj == %f\n", r.adj);
 }
 
 void	printhoridownright(t_info *infos)
@@ -123,13 +116,10 @@ void	printhoridownright(t_info *infos)
 	r.xa = infos->blockmeter;
 	r.ya = -infos->blockmeter / tan(infos->player.angle * M_PI / 180);
 	continueline(&r, infos);
-	// printf("adj == %f\n", r.adj);
 }
 void	printvertdownleft(t_info *infos)
 {
 	t_ray	r;
-	// int		x;
-	// int		y;
 
 	r.x = infos->player.x;
 	r.y = infos->player.y;
@@ -146,8 +136,6 @@ void	printvertdownleft(t_info *infos)
 void	printhoridownleft(t_info *infos)
 {
 	t_ray	r;
-	// int		x;
-	// int		y;
 
 	r.x = infos->player.x;
 	r.y = infos->player.y;
@@ -164,8 +152,6 @@ void	printhoridownleft(t_info *infos)
 void	printvertupleft(t_info *infos)
 {
 	t_ray	r;
-	// int		x;
-	// int		y;
 
 	r.x = infos->player.x;
 	r.y = infos->player.y;
@@ -182,8 +168,6 @@ void	printvertupleft(t_info *infos)
 void	printhoriupleft(t_info *infos)
 {
 	t_ray	r;
-	// int		x;
-	// int		y;
 
 	r.x = infos->player.x;
 	r.y = infos->player.y;
@@ -193,7 +177,7 @@ void	printhoriupleft(t_info *infos)
 	r.y -= r.op;
 	ft_putpixel(&infos->img, r.x, r.y, 0xFFFFFF);
 	r.xa = -infos->blockmeter;
-	r.ya = infos->blockmeter / tan(fabs(360 - infos->player.angle) * M_PI / 180);
+	r.ya = -infos->blockmeter / tan(fabs(360 - infos->player.angle) * M_PI / 180);
 	continueline(&r, infos);
 }
 
