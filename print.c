@@ -156,6 +156,9 @@ void	printhoridownleft(t_info *infos)
 	r.x -= r.adj;
 	r.y += r.op;
 	ft_putpixel(&infos->img, r.x, r.y, 0xFFFFFF);
+	r.xa = -infos->blockmeter;
+	r.ya = infos->blockmeter / tan(fabs(180 - infos->player.angle) * M_PI / 180);
+	continueline(&r, infos);
 }
 
 void	printvertupleft(t_info *infos)
