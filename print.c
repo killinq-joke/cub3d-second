@@ -169,11 +169,14 @@ void	printvertupleft(t_info *infos)
 
 	r.x = infos->player.x;
 	r.y = infos->player.y;
-	r.adj = infos->blockmeter - fmod(r.y, infos->blockmeter);
+	r.adj = fmod(r.y, infos->blockmeter);
 	r.op = tan(fabs((360 - infos->player.angle) * M_PI / 180)) * r.adj;
 	r.x -= r.op;
 	r.y -= r.adj;
-	ft_putpixel(&infos->img, r.x, r.y, 0xFFFFFF);
+	ft_putpixel(&infos->img, r.x, r.y, 0xFF0000);
+	r.ya = -infos->blockmeter;
+	r.xa = -infos->blockmeter / tan(fabs(270 - infos->player.angle) * M_PI / 180);
+	continueline(&r, infos);
 }
 
 void	printhoriupleft(t_info *infos)
