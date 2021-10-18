@@ -241,17 +241,28 @@ int	printplayer(t_info *infos)
 	int	x;
 	int	y;
 
-	x = (int)infos->player.x / infos->blockmeter;
-	y = (int)infos->player.y / infos->blockmeter;
+	x = infos->player.x / infos->blockmeter;
+	y = infos->player.y / infos->blockmeter;
 	if (infos->player.w && infos->map[y][x] != '1')
-		infos->player.y -= infos->player.speed;
+	{
+		infos->player.y -= cos(angletorad(infos->player.angle)) * infos->player.speed;
+		infos->player.x += sin(angletorad(infos->player.angle)) * infos->player.speed;
+	}
 	if (infos->player.s && infos->map[y][x] != '1')
-		infos->player.y += infos->player.speed;
+	{
+		infos->player.y += cos(angletorad(infos->player.angle)) * infos->player.speed;
+		infos->player.x -= sin(angletorad(infos->player.angle)) * infos->player.speed;
+	}
 	if (infos->player.a && infos->map[y][x] != '1')
-		infos->player.x -= infos->player.speed;
+	{
+		infos->player.y -= sin(angletorad(infos->player.angle)) * infos->player.speed;
+		infos->player.x -= cos(angletorad(infos->player.angle)) * infos->player.speed;
+	}
 	if (infos->player.d && infos->map[y][x] != '1')
-		infos->player.x += infos->player.speed;
-		// {pa-=5; pa=FixAng(pa); pdx=cos(degToRad(pa)); pdy=-sin(degToRad(pa));}
+	{
+		infos->player.y += sin(angletorad(infos->player.angle)) * infos->player.speed;
+		infos->player.x += cos(angletorad(infos->player.angle)) * infos->player.speed;
+	}
 	if (infos->player.left)
 	{
 		if (infos->player.angle <= 0)
