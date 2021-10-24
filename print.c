@@ -28,24 +28,60 @@ double	angletorad(double angle)
 	return (angle * M_PI / 180);
 }
 
-// void	dda(double xdest, double ydest, t_info *infos)
-// {
-	
-// }
-
 double	distance(t_ray *r, t_info *infos)
 {
 	return (sqrt(fabs(r->x - infos->player.x) + fabs(r->y - infos->player.y)));
 }
 
-void	continueline(t_ray *r, t_info *infos)
+double	distance2(t_bool vert, t_info *infos)
+{
+	if (vert)
+		return (sqrt(fabs(infos->player.x - infos->player.rayvx) + fabs(infos->player.y - infos->player.rayvy)));
+	else
+		return (sqrt(fabs(infos->player.x - infos->player.rayhx) + fabs(infos->player.y - infos->player.rayhy)));
+}
+
+void	dda(t_info *infos, double rayx, double rayy)
+{
+	double	deltax;
+	double	deltay;
+	double	xinc;
+	double	yinc;
+	int		steps;
+	int		i = 0;
+
+	deltax = rayx - infos->player.x;
+	deltay = rayy - infos->player.y;
+	if (fabs(deltax) > fabs(deltay))
+	{
+		//if negative xinc que faire
+		steps = round(fabs(deltax));
+		xinc = 1;
+		yinc = deltay / deltax;
+	}
+	else
+	{
+		steps = round(fabs(deltay));
+		yinc = 1;
+		xinc = deltax / deltay;
+	}
+	while (i < steps)
+	{
+		rayx += xinc;
+		rayy += yinc;
+		ft_putpixel(&infos->img, rayx, rayy, 0x0000FF);
+		i++;
+	}
+}
+
+void	continueline(t_bool vert, t_ray *r, t_info *infos)
 {
 	int		x;
 	int		y;
 
-	x = r->x / infos->blockmeter;
-	y = r->y / infos->blockmeter;
-	while (y > -1 && y < infos->maxy && x > -1 && x < infos->maxx && infos->map[y][x] != '1')
+	x = floor(r->x + 1) / infos->blockmeter;
+	y = floor(r->y - 1) / infos->blockmeter;
+	while (y > -1 && y < infos->maxy && x > -1 && x < infos->maxx && infos->map[y][x] == '0')
 	{
 		r->x += r->xa;
 		r->y += r->ya;
@@ -53,9 +89,19 @@ void	continueline(t_ray *r, t_info *infos)
 		y = r->y / infos->blockmeter;
 		ft_putpixel(&infos->img, r->x, r->y, 0xFF0000);
 	}
+	if (vert)
+	{
+		infos->player.rayvx = r->x;
+		infos->player.rayvy = r->y;
+	}
+	else
+	{
+		infos->player.rayhx = r->x;
+		infos->player.rayhy = r->y;
+	}
 }
 
-double	printvertupright(double angle, t_info *infos)
+void	printvertupright(double angle, t_info *infos)
 {
 	t_ray	r;
 
@@ -68,12 +114,10 @@ double	printvertupright(double angle, t_info *infos)
 	ft_putpixel(&infos->img, r.x, r.y, 0xFFFFFF);
 	r.ya = -infos->blockmeter;
 	r.xa = infos->blockmeter / tan(angletorad(fabs(angle - 90)));
-	continueline(&r, infos);
-	// dda(r.x, r.y, infos);
-	return (distance(&r, infos));
+	continueline(TRUE, &r, infos);
 }
 
-double	printhoriupright(double angle, t_info *infos)
+void	printhoriupright(double angle, t_info *infos)
 {
 	t_ray	r;
 
@@ -86,12 +130,10 @@ double	printhoriupright(double angle, t_info *infos)
 	ft_putpixel(&infos->img, r.x, r.y, 0x00FF00);
 	r.xa = infos->blockmeter;
 	r.ya = -infos->blockmeter / tan(angletorad(angle));
-	continueline(&r, infos);
-	// dda(r.x, r.y, infos);
-	return (distance(&r, infos));
+	continueline(FALSE, &r, infos);
 }
 
-double	printvertdownright(double angle, t_info *infos)
+void	printvertdownright(double angle, t_info *infos)
 {
 	t_ray	r;
 
@@ -104,11 +146,10 @@ double	printvertdownright(double angle, t_info *infos)
 	ft_putpixel(&infos->img, r.x, r.y, 0xFFFFFF);
 	r.ya = infos->blockmeter;
 	r.xa = infos->blockmeter / tan(angletorad(fabs(90 - angle)));
-	continueline(&r, infos);
-	return (distance(&r, infos));
+	continueline(TRUE, &r, infos);
 }
 
-double	printhoridownright(double angle, t_info *infos)
+void	printhoridownright(double angle, t_info *infos)
 {
 	t_ray	r;
 
@@ -121,10 +162,10 @@ double	printhoridownright(double angle, t_info *infos)
 	ft_putpixel(&infos->img, r.x, r.y, 0xFFFFFF);
 	r.xa = infos->blockmeter;
 	r.ya = -infos->blockmeter / tan(angletorad(angle));
-	continueline(&r, infos);
-	return (distance(&r, infos));
+	continueline(FALSE, &r, infos);
 }
-double	printvertdownleft(double angle, t_info *infos)
+
+void	printvertdownleft(double angle, t_info *infos)
 {
 	t_ray	r;
 
@@ -137,11 +178,10 @@ double	printvertdownleft(double angle, t_info *infos)
 	ft_putpixel(&infos->img, r.x, r.y, 0xFFFFFF);
 	r.ya = infos->blockmeter;
 	r.xa = infos->blockmeter / tan(angletorad(fabs(90 - angle)));
-	continueline(&r, infos);
-	return (distance(&r, infos));
+	continueline(TRUE, &r, infos);
 }
 
-double	printhoridownleft(double angle, t_info *infos)
+void	printhoridownleft(double angle, t_info *infos)
 {
 	t_ray	r;
 
@@ -154,11 +194,10 @@ double	printhoridownleft(double angle, t_info *infos)
 	ft_putpixel(&infos->img, r.x, r.y, 0xFFFFFF);
 	r.xa = -infos->blockmeter;
 	r.ya = infos->blockmeter / tan(angletorad(fabs(180 - angle)));
-	continueline(&r, infos);
-	return (distance(&r, infos));
+	continueline(FALSE, &r, infos);
 }
 
-double	printvertupleft(double angle, t_info *infos)
+void	printvertupleft(double angle, t_info *infos)
 {
 	t_ray	r;
 
@@ -171,11 +210,10 @@ double	printvertupleft(double angle, t_info *infos)
 	ft_putpixel(&infos->img, r.x, r.y, 0xFF0000);
 	r.ya = -infos->blockmeter;
 	r.xa = -infos->blockmeter / tan(angletorad(fabs(270 - angle)));
-	continueline(&r, infos);
-	return (distance(&r, infos));
+	continueline(TRUE, &r, infos);
 }
 
-double	printhoriupleft(double angle, t_info *infos)
+void	printhoriupleft(double angle, t_info *infos)
 {
 	t_ray	r;
 
@@ -188,8 +226,7 @@ double	printhoriupleft(double angle, t_info *infos)
 	ft_putpixel(&infos->img, r.x, r.y, 0xFFFFFF);
 	r.xa = -infos->blockmeter;
 	r.ya = -infos->blockmeter / tan(angletorad(fabs(360 - angle)));
-	continueline(&r, infos);
-	return (distance(&r, infos));
+	continueline(FALSE, &r, infos);
 }
 
 void	printminimapblock(int y, int x, t_info *infos)
@@ -198,7 +235,6 @@ void	printminimapblock(int y, int x, t_info *infos)
 	int			xstart;
 	int			yend;
 	int			xend;
-	static int	isfirst = 1;
 
 	ystart = y * infos->blockmeter;
 	xstart = x * infos->blockmeter;
@@ -211,7 +247,7 @@ void	printminimapblock(int y, int x, t_info *infos)
 		{
 			if (infos->map[y][x] == '1')
 				ft_putpixel(&infos->img, xstart, ystart, 0xFF0000);
-			else if (ft_isin("NSWE", infos->map[y][x]) && isfirst)
+			else if (ft_isin("NSWE", infos->map[y][x]))
 			{
 				infos->player.y = y * infos->blockmeter + infos->blockmeter / 2;
 				infos->player.x = x * infos->blockmeter + infos->blockmeter / 2;
@@ -224,7 +260,7 @@ void	printminimapblock(int y, int x, t_info *infos)
 					infos->player.angle = 90;
 				if (infos->map[y][x] == 'W')
 					infos->player.angle = 270;
-				isfirst = 0;
+				infos->map[y][x] = '0';
 			}
 			else
 				ft_putpixel(&infos->img, xstart, ystart, 0xFFFFFF);
@@ -279,7 +315,31 @@ int	printplayer(t_info *infos)
 	return (1);
 }
 
-int	printview(t_info *infos)
+void	printpoints(double angle, t_info *infos)
+{
+	if (angle > 0 && angle < 90)
+	{
+		printvertupright(angle, infos);
+		printhoriupright(angle, infos);
+	}
+	else if (angle > 90 && angle < 180)
+	{
+		printvertdownright(angle, infos);
+		printhoridownright(angle, infos);
+	}
+	else if (angle > 180 && angle < 270)
+	{
+		printvertdownleft(angle, infos);
+		printhoridownleft(angle, infos);
+	}
+	else if (angle > 270 && angle < 360)
+	{
+		printvertupleft(angle, infos);
+		printhoriupleft(angle, infos);
+	}
+}
+
+void	printview(t_info *infos)
 {
 	double	i;
 	double	angle;
@@ -292,29 +352,13 @@ int	printview(t_info *infos)
 			angle = 360 + angle;
 		if (angle > 360)
 			angle = angle - 360;
-		if (angle > 0 && angle < 90)
-		{
-			printvertupright(angle, infos);
-			printhoriupright(angle, infos);
-		}
-		else if (angle > 90 && angle < 180)
-		{
-			printvertdownright(angle, infos);
-			printhoridownright(angle, infos);
-		}
-		else if (angle > 180 && angle < 270)
-		{
-			printvertdownleft(angle, infos);
-			printhoridownleft(angle, infos);
-		}
-		else if (angle > 270 && angle < 360)
-		{
-			printvertupleft(angle, infos);
-			printhoriupleft(angle, infos);
-		}
+		printpoints(angle, infos);
+		if (distance2(TRUE, infos) <= distance2(FALSE, infos))
+			dda(infos, infos->player.rayvx, infos->player.rayvy);
+		else
+			dda(infos, infos->player.rayhx, infos->player.rayhy);
 		i++;
 	}
-	return (1);
 }
 
 int	printminimap(t_info *infos)

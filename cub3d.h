@@ -6,7 +6,7 @@
 /*   By: ztouzri <ztouzri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 01:35:50 by ztouzri           #+#    #+#             */
-/*   Updated: 2021/10/15 17:16:34 by ztouzri          ###   ########.fr       */
+/*   Updated: 2021/10/24 15:34:15 by ztouzri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,16 +43,21 @@ typedef struct s_ray {
 }				t_ray;
 
 typedef struct s_pl {
-	double		x;
-	double		y;
+	double	x;
+	double	y;
+	double	rayhx;
+	double	rayhy;
+	double	rayvx;
+	double	rayvy;
 	double	angle;
+	t_ray	r;
 	t_bool	left;
 	t_bool	right;
 	t_bool	w;
 	t_bool	a;
 	t_bool	s;
 	t_bool	d;
-	double		speed;
+	double	speed;
 }				t_pl;
 
 typedef struct s_img {
