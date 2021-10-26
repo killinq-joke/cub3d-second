@@ -30,15 +30,15 @@ double	angletorad(double angle)
 
 double	distance(t_ray *r, t_info *infos)
 {
-	return (sqrt(fabs(r->x - infos->player.x) + fabs(r->y - infos->player.y)));
+	return (sqrt(pow(r->x - infos->player.x, 2) + pow(r->y - infos->player.y, 2)));
 }
 
 double	distance2(t_bool vert, t_info *infos)
 {
 	if (vert)
-		return (sqrt(fabs(infos->player.x - infos->player.rayvx) + fabs(infos->player.y - infos->player.rayvy)));
+		return (sqrt(pow(infos->player.x - infos->player.rayvx, 2) + pow(infos->player.y - infos->player.rayvy, 2)));
 	else
-		return (sqrt(fabs(infos->player.x - infos->player.rayhx) + fabs(infos->player.y - infos->player.rayhy)));
+		return (sqrt(pow(infos->player.x - infos->player.rayhx, 2) + pow(infos->player.y - infos->player.rayhy, 2)));
 }
 
 void	dda(t_info *infos, double rayx, double rayy)
@@ -79,16 +79,23 @@ void	continueline(t_bool vert, t_ray *r, t_info *infos)
 	int		x;
 	int		y;
 
-	x = floor(r->x + 1) / infos->blockmeter;
-	y = floor(r->y - 1) / infos->blockmeter;
-	while (y > -1 && y < infos->maxy && x > -1 && x < infos->maxx && infos->map[y][x] == '0')
+	x = r->x / infos->blockmeter;
+	y = r->y / infos->blockmeter;
+	while (y >= 0 && y < infos->maxy && x >= 0 && x < infos->maxx && infos->map[y][x] == '0')
 	{
 		r->x += r->xa;
 		r->y += r->ya;
-		x = r->x / infos->blockmeter;
-		y = r->y / infos->blockmeter;
+		// if (infos->player.angle < 360 && infos->player.angle > 270)
+		// 	x = r->x / infos->blockmeter - 1;
+		// else
+			x = r->x / infos->blockmeter;
+		if ((infos->player.angle > 270 && infos->player.angle < 360) || (infos->player.angle < 360 && infos->player.angle < 90))
+			y = r->y / infos->blockmeter - 1;
+		else
+			y = r->y / infos->blockmeter;
 		ft_putpixel(&infos->img, r->x, r->y, 0xFF0000);
 	}
+	printf("angle == %f, y == %d, x == %d\n", infos->player.angle, y, x);
 	if (vert)
 	{
 		infos->player.rayvx = r->x;
@@ -378,7 +385,12 @@ int	printminimap(t_info *infos)
 		y++;
 	}
 	printplayer(infos);
-	printview(infos);
+	printpoints(infos->player.angle, infos);
+	if (distance2(TRUE, infos) <= distance2(FALSE, infos))
+		dda(infos, infos->player.rayvx, infos->player.rayvy);
+	else
+		dda(infos, infos->player.rayhx, infos->player.rayhy);
+	// printview(infos);
 	mlx_put_image_to_window(infos->mlx, infos->win, infos->img.img, 0, 0);
 	return (1);
 }
