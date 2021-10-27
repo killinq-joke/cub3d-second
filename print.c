@@ -114,6 +114,20 @@ void	printvertupright(double angle, t_info *infos)
 	ft_putpixel(&infos->img, infos->r.x, infos->r.y, 0x00FF00);
 	infos->r.ya = -infos->blockmeter;
 	infos->r.xa = infos->blockmeter / tan(angletorad(fabs(angle - 90)));
+	int	x;
+	int	y;
+
+	x = infos->r.x / infos->blockmeter;
+	y = infos->r.y / infos->blockmeter;
+	while (x > 0 && x < infos->mapx && y > 0 && y < infos->mapy)
+	{
+		ft_putpixel(&infos->img, x, y, 0x00FF00);
+		infos->r.x += infos->r.xa;
+		infos->r.y += infos->r.ya;
+		x = infos->r.x / infos->blockmeter;
+		y = infos->r.y / infos->blockmeter;
+		printf("x == %d\n", x);
+	}
 }
 
 void	printhoriupright(double angle, t_info *infos)
