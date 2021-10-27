@@ -5,3 +5,4 @@ file*
 *.a
 cub3D
 *.dSYM
+.vscode

@@ -6,7 +6,7 @@
 /*   By: ztouzri <ztouzri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 01:35:50 by ztouzri           #+#    #+#             */
-/*   Updated: 2021/10/24 15:34:15 by ztouzri          ###   ########.fr       */
+/*   Updated: 2021/10/27 16:52:47 by ztouzri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@
 # define RIGHTARR 124
 # define ESC 53
 # define SHIFT 257
+# define WIDTH 1920
+# define HEIGHT 1080
 
 typedef enum e_bool {
 	FALSE,
@@ -85,6 +87,14 @@ typedef struct s_info {
 	void	*mlx;
 	void	*win;
 	t_img	img;
+	double	dx;
+	double	dy;
+	int		steps;
+	double	xinc;
+	double	yinc;
+	double	x;
+	double	y;
+	t_ray	r;
 }				t_info;
 
 //checker.c
