@@ -111,23 +111,25 @@ void	printvertupright(double angle, t_info *infos)
 	infos->r.op = tan(angletorad(angle)) * infos->r.adj;
 	infos->r.x += infos->r.op;
 	infos->r.y -= infos->r.adj;
-	ft_putpixel(&infos->img, infos->r.x, infos->r.y, 0x00FF00);
+	// ft_putpixel(&infos->img, infos->r.x, infos->r.y, 0x00FF00);
 	infos->r.ya = -infos->blockmeter;
 	infos->r.xa = infos->blockmeter / tan(angletorad(fabs(angle - 90)));
 	int	x;
 	int	y;
 
 	x = infos->r.x / infos->blockmeter;
-	y = infos->r.y / infos->blockmeter;
-	while (x > 0 && x < infos->mapx && y > 0 && y < infos->mapy)
+	y = infos->r.y / infos->blockmeter - 1;
+	while (x > 0 && x < infos->maxx && y > 0 && y < infos->maxy && infos->map[y][x] == '0')
 	{
-		ft_putpixel(&infos->img, x, y, 0x00FF00);
+		// ft_putpixel(&infos->img, infos->r.x, infos->r.y, 0x00FF00);
 		infos->r.x += infos->r.xa;
 		infos->r.y += infos->r.ya;
 		x = infos->r.x / infos->blockmeter;
-		y = infos->r.y / infos->blockmeter;
-		printf("x == %d\n", x);
+		y = infos->r.y / infos->blockmeter - 1;
 	}
+	// ft_putpixel(&infos->img, infos->r.x, infos->r.y, 0x00FF00);
+	infos->player.rayvx = infos->r.x;
+	infos->player.rayvy = infos->r.y;
 }
 
 void	printhoriupright(double angle, t_info *infos)
@@ -138,9 +140,25 @@ void	printhoriupright(double angle, t_info *infos)
 	infos->r.op = tan(angletorad(fabs(90 - angle))) * infos->r.adj;
 	infos->r.x += infos->r.adj;
 	infos->r.y -= infos->r.op - 1;
-	ft_putpixel(&infos->img, infos->r.x, infos->r.y, 0xFFFF00);
+	// ft_putpixel(&infos->img, infos->r.x, infos->r.y, 0xFFFF00);
 	infos->r.xa = infos->blockmeter;
 	infos->r.ya = -infos->blockmeter / tan(angletorad(angle));
+	int	x;
+	int	y;
+
+	x = infos->r.x / infos->blockmeter;
+	y = infos->r.y / infos->blockmeter;
+	while (x > 0 && x < infos->maxx && y > 0 && y < infos->maxy && infos->map[y][x] == '0')
+	{
+		// ft_putpixel(&infos->img, infos->r.x, infos->r.y, 0x00FF00);
+		infos->r.x += infos->r.xa;
+		infos->r.y += infos->r.ya;
+		x = infos->r.x / infos->blockmeter;
+		y = infos->r.y / infos->blockmeter;
+	}
+	// ft_putpixel(&infos->img, infos->r.x, infos->r.y, 0x00FF00);
+	infos->player.rayhx = infos->r.x;
+	infos->player.rayhy = infos->r.y;
 }
 
 void	printvertdownright(double angle, t_info *infos)
@@ -151,9 +169,25 @@ void	printvertdownright(double angle, t_info *infos)
 	infos->r.op = tan(angletorad(fabs(180 - angle))) * infos->r.adj;
 	infos->r.x += infos->r.op;
 	infos->r.y += infos->r.adj;
-	ft_putpixel(&infos->img, infos->r.x, infos->r.y, 0x00FF00);
+	// ft_putpixel(&infos->img, infos->r.x, infos->r.y, 0x00FF00);
 	infos->r.ya = infos->blockmeter;
 	infos->r.xa = infos->blockmeter / tan(angletorad(fabs(90 - angle)));
+	int	x;
+	int	y;
+
+	x = infos->r.x / infos->blockmeter;
+	y = infos->r.y / infos->blockmeter;
+	while (x > 0 && x < infos->maxx && y > 0 && y < infos->maxy && infos->map[y][x] == '0')
+	{
+		// ft_putpixel(&infos->img, infos->r.x, infos->r.y, 0x00FF00);
+		infos->r.x += infos->r.xa;
+		infos->r.y += infos->r.ya;
+		x = infos->r.x / infos->blockmeter;
+		y = infos->r.y / infos->blockmeter;
+	}
+	// ft_putpixel(&infos->img, infos->r.x, infos->r.y, 0x00FF00);
+	infos->player.rayvx = infos->r.x;
+	infos->player.rayvy = infos->r.y;
 }
 
 void	printhoridownright(double angle, t_info *infos)
@@ -164,9 +198,25 @@ void	printhoridownright(double angle, t_info *infos)
 	infos->r.op = tan(angletorad(fabs(90 - angle))) * infos->r.adj;
 	infos->r.x += infos->r.adj;
 	infos->r.y += infos->r.op;
-	ft_putpixel(&infos->img, infos->r.x, infos->r.y, 0xFFFF00);
+	// ft_putpixel(&infos->img, infos->r.x, infos->r.y, 0xFFFF00);
 	infos->r.xa = infos->blockmeter;
 	infos->r.ya = -infos->blockmeter / tan(angletorad(angle));
+	int	x;
+	int	y;
+
+	x = infos->r.x / infos->blockmeter;
+	y = infos->r.y / infos->blockmeter;
+	while (x > 0 && x < infos->maxx && y > 0 && y < infos->maxy && infos->map[y][x] == '0')
+	{
+		// ft_putpixel(&infos->img, infos->r.x, infos->r.y, 0x00FF00);
+		infos->r.x += infos->r.xa;
+		infos->r.y += infos->r.ya;
+		x = infos->r.x / infos->blockmeter;
+		y = infos->r.y / infos->blockmeter;
+	}
+	// ft_putpixel(&infos->img, infos->r.x, infos->r.y, 0x00FF00);
+	infos->player.rayhx = infos->r.x;
+	infos->player.rayhy = infos->r.y;
 }
 
 void	printvertdownleft(double angle, t_info *infos)
@@ -177,9 +227,25 @@ void	printvertdownleft(double angle, t_info *infos)
 	infos->r.op = tan(angletorad(fabs(180 - angle))) * infos->r.adj;
 	infos->r.x -= infos->r.op;
 	infos->r.y += infos->r.adj;
-	ft_putpixel(&infos->img, infos->r.x, infos->r.y, 0x00FF00);
+	// ft_putpixel(&infos->img, infos->r.x, infos->r.y, 0x00FF00);
 	infos->r.ya = infos->blockmeter;
 	infos->r.xa = infos->blockmeter / tan(angletorad(fabs(90 - angle)));
+	int	x;
+	int	y;
+
+	x = infos->r.x / infos->blockmeter;
+	y = infos->r.y / infos->blockmeter;
+	while (x > 0 && x < infos->maxx && y > 0 && y < infos->maxy && infos->map[y][x] == '0')
+	{
+		// ft_putpixel(&infos->img, infos->r.x, infos->r.y, 0x00FF00);
+		infos->r.x += infos->r.xa;
+		infos->r.y += infos->r.ya;
+		x = infos->r.x / infos->blockmeter;
+		y = infos->r.y / infos->blockmeter;
+	}
+	// ft_putpixel(&infos->img, infos->r.x, infos->r.y, 0x00FF00);
+	infos->player.rayvx = infos->r.x;
+	infos->player.rayvy = infos->r.y;
 }
 
 void	printhoridownleft(double angle, t_info *infos)
@@ -190,9 +256,25 @@ void	printhoridownleft(double angle, t_info *infos)
 	infos->r.op = tan(angletorad(fabs(270 - angle))) * infos->r.adj;
 	infos->r.x -= infos->r.adj;
 	infos->r.y += infos->r.op;
-	ft_putpixel(&infos->img, infos->r.x, infos->r.y, 0xFFFF00);
+	// ft_putpixel(&infos->img, infos->r.x, infos->r.y, 0xFFFF00);
 	infos->r.xa = -infos->blockmeter;
 	infos->r.ya = infos->blockmeter / tan(angletorad(fabs(180 - angle)));
+	int	x;
+	int	y;
+
+	x = infos->r.x / infos->blockmeter - 1;
+	y = infos->r.y / infos->blockmeter;
+	while (x > 0 && x < infos->maxx && y > 0 && y < infos->maxy && infos->map[y][x] == '0')
+	{
+		// ft_putpixel(&infos->img, infos->r.x, infos->r.y, 0x00FF00);
+		infos->r.x += infos->r.xa;
+		infos->r.y += infos->r.ya;
+		x = infos->r.x / infos->blockmeter - 1;
+		y = infos->r.y / infos->blockmeter;
+	}
+	// ft_putpixel(&infos->img, infos->r.x, infos->r.y, 0x00FF00);
+	infos->player.rayhx = infos->r.x;
+	infos->player.rayhy = infos->r.y;
 }
 
 void	printvertupleft(double angle, t_info *infos)
@@ -203,9 +285,26 @@ void	printvertupleft(double angle, t_info *infos)
 	infos->r.op = tan(angletorad(fabs(360 - angle))) * infos->r.adj;
 	infos->r.x -= infos->r.op;
 	infos->r.y -= infos->r.adj;
-	ft_putpixel(&infos->img, infos->r.x, infos->r.y, 0x00FF00);
+	// ft_putpixel(&infos->img, infos->r.x, infos->r.y, 0x00FF00);
 	infos->r.ya = -infos->blockmeter;
 	infos->r.xa = -infos->blockmeter / tan(angletorad(fabs(270 - angle)));
+	int	x;
+	int	y;
+
+	x = infos->r.x / infos->blockmeter;
+	y = infos->r.y / infos->blockmeter - 1;
+	// ft_putpixel(&infos->img, infos->r.x, infos->r.y, 0x00FF00);
+	while (x > 0 && x < infos->maxx && y > 0 && y < infos->maxy && infos->map[y][x] == '0')
+	{
+		infos->r.x += infos->r.xa;
+		infos->r.y += infos->r.ya;
+		x = infos->r.x / infos->blockmeter;
+		y = infos->r.y / infos->blockmeter - 1;
+		// ft_putpixel(&infos->img, infos->r.x, infos->r.y, 0x00FF00);
+	}
+	// ft_putpixel(&infos->img, infos->r.x, infos->r.y, 0x00FF00);
+	infos->player.rayvx = infos->r.x;
+	infos->player.rayvy = infos->r.y;
 }
 
 void	printhoriupleft(double angle, t_info *infos)
@@ -216,9 +315,25 @@ void	printhoriupleft(double angle, t_info *infos)
 	infos->r.op = tan(angletorad(fabs(270 - angle))) * infos->r.adj;
 	infos->r.x -= infos->r.adj;
 	infos->r.y -= infos->r.op - 1;
-	ft_putpixel(&infos->img, infos->r.x, infos->r.y, 0xFFFF00);
+	// ft_putpixel(&infos->img, infos->r.x, infos->r.y, 0xFFFF00);
 	infos->r.xa = -infos->blockmeter;
 	infos->r.ya = -infos->blockmeter / tan(angletorad(fabs(360 - angle)));
+	int	x;
+	int	y;
+
+	x = infos->r.x / infos->blockmeter - 1;
+	y = infos->r.y / infos->blockmeter;
+	while (x > 0 && x < infos->maxx && y > 0 && y < infos->maxy && infos->map[y][x] == '0')
+	{
+		// ft_putpixel(&infos->img, infos->r.x, infos->r.y, 0x00FF00);
+		infos->r.x += infos->r.xa;
+		infos->r.y += infos->r.ya;
+		x = infos->r.x / infos->blockmeter - 1;
+		y = infos->r.y / infos->blockmeter;
+	}
+	// ft_putpixel(&infos->img, infos->r.x, infos->r.y, 0x00FF00);
+	infos->player.rayhx = infos->r.x;
+	infos->player.rayhy = infos->r.y;
 }
 
 void	printminimapblock(int y, int x, t_info *infos)
@@ -399,10 +514,10 @@ int	printminimap(t_info *infos)
 	}
 	printplayer(infos);
 	printpoints(infos->player.angle, infos);
-	// if (distance2(TRUE, infos) <= distance2(FALSE, infos))
-	// 	dda(infos, infos->player.rayvx, infos->player.rayvy);
-	// else
-	// 	dda(infos, infos->player.rayhx, infos->player.rayhy);
+	if (distance2(TRUE, infos) <= distance2(FALSE, infos))
+		dda(infos, infos->player.rayvx, infos->player.rayvy, TRUE);
+	else
+		dda(infos, infos->player.rayhx, infos->player.rayhy, FALSE);
 	mlx_put_image_to_window(infos->mlx, infos->win, infos->img.img, 0, 0);
 	return (1);
 }
