@@ -513,11 +513,12 @@ int	printminimap(t_info *infos)
 		y++;
 	}
 	printplayer(infos);
-	printpoints(infos->player.angle, infos);
-	if (distance2(TRUE, infos) <= distance2(FALSE, infos))
-		dda(infos, infos->player.rayvx, infos->player.rayvy, TRUE);
-	else
-		dda(infos, infos->player.rayhx, infos->player.rayhy, FALSE);
+	// printpoints(infos->player.angle, infos);
+	// if (distance2(TRUE, infos) <= distance2(FALSE, infos))
+	// 	dda(infos, infos->player.rayvx, infos->player.rayvy, TRUE);
+	// else
+	// 	dda(infos, infos->player.rayhx, infos->player.rayhy, FALSE);
+	printview(infos);
 	mlx_put_image_to_window(infos->mlx, infos->win, infos->img.img, 0, 0);
 	return (1);
 }
