@@ -25,7 +25,7 @@ void	ft_putpixel(t_img *img, int x, int y, int color)
 
 double	angletorad(double angle)
 {
-	return (angle * M_PI / 180);
+	return (angle * M_PI / 180.0);
 }
 
 double	distance(t_ray *r, t_info *infos)
@@ -41,44 +41,6 @@ double	distance2(t_bool vert, t_info *infos)
 		return (sqrt(pow(infos->player.x - infos->player.rayhx, 2) + pow(infos->player.y - infos->player.rayhy, 2)));
 }
 
-// void	dda(t_info *infos, double rayx, double rayy)
-// {
-// 	double	deltax;
-// 	double	deltay;
-// 	double	xinc;
-// 	double	yinc;
-// 	double	steps;
-// 	int		i = 0;
-
-// 	deltax = rayx - infos->player.x;
-// 	deltay = rayy - infos->player.y;
-// 	if (infos->player.angle >= 90 && infos->player.angle <= 270)
-// 	{
-// 		deltax = infos->player.x - rayx;
-// 		deltay = infos->player.y - rayy;
-// 	}
-// 	if (fabs(deltax) > fabs(deltay))
-// 	{
-// 		//if negative xinc que faire
-// 		steps = round(fabs(deltax));
-// 		xinc = deltax / steps;
-// 		yinc = deltay / deltax;
-// 	}
-// 	else
-// 	{
-// 		steps = round(fabs(deltay));
-// 		yinc = deltay / steps;
-// 		xinc = deltax / deltay;
-// 	}
-// 	while (i < steps)
-// 	{
-// 		rayx += xinc;
-// 		rayy += yinc;
-// 		ft_putpixel(&infos->img, rayx, rayy, 0x0000FF);
-// 		i++;
-// 	}
-// }
-
 void	dda(t_info *infos, double rayx, double rayy, t_bool vert)
 {
 	int i;
@@ -86,8 +48,8 @@ void	dda(t_info *infos, double rayx, double rayy, t_bool vert)
 	infos->dx = rayx - infos->player.x;
 	infos->dy = rayy - infos->player.y;
 	infos->steps = fabs(infos->dx) > fabs(infos->dy) ? fabs(infos->dx) : fabs(infos->dy);
-	infos->xinc = infos->dx / (double)infos->steps;
-	infos->yinc = infos->dy / (double)infos->steps;
+	infos->xinc = infos->dx / infos->steps;
+	infos->yinc = infos->dy / infos->steps;
 	infos->x = infos->player.x;
 	infos->y = infos->player.y;
 	i = 0;
@@ -107,27 +69,21 @@ void	printvertupright(double angle, t_info *infos)
 {
 	infos->r.x = infos->player.x;
 	infos->r.y = infos->player.y;
-	infos->r.adj = fmod(infos->r.y, infos->blockmeter);
+	infos->r.adj = fmod(infos->r.y, SIZE);
 	infos->r.op = tan(angletorad(angle)) * infos->r.adj;
 	infos->r.x += infos->r.op;
 	infos->r.y -= infos->r.adj;
-	// ft_putpixel(&infos->img, infos->r.x, infos->r.y, 0x00FF00);
-	infos->r.ya = -infos->blockmeter;
-	infos->r.xa = infos->blockmeter / tan(angletorad(fabs(angle - 90)));
-	int	x;
-	int	y;
-
-	x = infos->r.x / infos->blockmeter;
-	y = infos->r.y / infos->blockmeter - 1;
-	while (x > 0 && x < infos->maxx && y > 0 && y < infos->maxy && infos->map[y][x] == '0')
+	infos->r.ya = -SIZE;
+	infos->r.xa = SIZE / tan(angletorad(fabs(angle - 90)));
+	infos->mapx = infos->r.x / SIZE + 0.000001;
+	infos->mapy = infos->r.y / SIZE - 1.0;
+	while (infos->mapx > 0 && infos->mapx < infos->maxx && infos->mapy > 0 && infos->mapy < infos->maxy && infos->map[infos->mapy][infos->mapx] == '0')
 	{
-		// ft_putpixel(&infos->img, infos->r.x, infos->r.y, 0x00FF00);
 		infos->r.x += infos->r.xa;
 		infos->r.y += infos->r.ya;
-		x = infos->r.x / infos->blockmeter;
-		y = infos->r.y / infos->blockmeter - 1;
+		infos->mapx = infos->r.x / SIZE + 0.000001;
+		infos->mapy = infos->r.y / SIZE - 1.0;
 	}
-	// ft_putpixel(&infos->img, infos->r.x, infos->r.y, 0x00FF00);
 	infos->player.rayvx = infos->r.x;
 	infos->player.rayvy = infos->r.y;
 }
@@ -136,27 +92,21 @@ void	printhoriupright(double angle, t_info *infos)
 {
 	infos->r.x = infos->player.x;
 	infos->r.y = infos->player.y;
-	infos->r.adj = fabs(infos->blockmeter - fmod(infos->r.x, infos->blockmeter));
+	infos->r.adj = fabs(SIZE - fmod(infos->r.x, SIZE));
 	infos->r.op = tan(angletorad(fabs(90 - angle))) * infos->r.adj;
 	infos->r.x += infos->r.adj;
-	infos->r.y -= infos->r.op - 1;
-	// ft_putpixel(&infos->img, infos->r.x, infos->r.y, 0xFFFF00);
-	infos->r.xa = infos->blockmeter;
-	infos->r.ya = -infos->blockmeter / tan(angletorad(angle));
-	int	x;
-	int	y;
-
-	x = infos->r.x / infos->blockmeter;
-	y = infos->r.y / infos->blockmeter;
-	while (x > 0 && x < infos->maxx && y > 0 && y < infos->maxy && infos->map[y][x] == '0')
+	infos->r.y -= infos->r.op;
+	infos->r.xa = SIZE;
+	infos->r.ya = -SIZE / tan(angletorad(angle));
+	infos->mapx = infos->r.x / SIZE + 0.000001;
+	infos->mapy = infos->r.y / SIZE - 0.000001;
+	while (infos->mapx > 0 && infos->mapx < infos->maxx && infos->mapy > 0 && infos->mapy < infos->maxy && infos->map[infos->mapy][infos->mapx] == '0')
 	{
-		// ft_putpixel(&infos->img, infos->r.x, infos->r.y, 0x00FF00);
 		infos->r.x += infos->r.xa;
 		infos->r.y += infos->r.ya;
-		x = infos->r.x / infos->blockmeter;
-		y = infos->r.y / infos->blockmeter;
+		infos->mapx = infos->r.x / SIZE + 0.000001;
+		infos->mapy = infos->r.y / SIZE - 0.000001;
 	}
-	// ft_putpixel(&infos->img, infos->r.x, infos->r.y, 0x00FF00);
 	infos->player.rayhx = infos->r.x;
 	infos->player.rayhy = infos->r.y;
 }
@@ -165,27 +115,21 @@ void	printvertdownright(double angle, t_info *infos)
 {
 	infos->r.x = infos->player.x;
 	infos->r.y = infos->player.y;
-	infos->r.adj = infos->blockmeter - fmod(infos->r.y, infos->blockmeter);
+	infos->r.adj = SIZE - fmod(infos->r.y, SIZE);
 	infos->r.op = tan(angletorad(fabs(180 - angle))) * infos->r.adj;
 	infos->r.x += infos->r.op;
 	infos->r.y += infos->r.adj;
-	// ft_putpixel(&infos->img, infos->r.x, infos->r.y, 0x00FF00);
-	infos->r.ya = infos->blockmeter;
-	infos->r.xa = infos->blockmeter / tan(angletorad(fabs(90 - angle)));
-	int	x;
-	int	y;
-
-	x = infos->r.x / infos->blockmeter;
-	y = infos->r.y / infos->blockmeter;
-	while (x > 0 && x < infos->maxx && y > 0 && y < infos->maxy && infos->map[y][x] == '0')
+	infos->r.ya = SIZE;
+	infos->r.xa = SIZE / tan(angletorad(fabs(90 - angle)));
+	infos->mapx = infos->r.x / SIZE;
+	infos->mapy = infos->r.y / SIZE;
+	while (infos->mapx > 0 && infos->mapx < infos->maxx && infos->mapy > 0 && infos->mapy < infos->maxy && infos->map[infos->mapy][infos->mapx] == '0')
 	{
-		// ft_putpixel(&infos->img, infos->r.x, infos->r.y, 0x00FF00);
 		infos->r.x += infos->r.xa;
 		infos->r.y += infos->r.ya;
-		x = infos->r.x / infos->blockmeter;
-		y = infos->r.y / infos->blockmeter;
+		infos->mapx = infos->r.x / SIZE;
+		infos->mapy = infos->r.y / SIZE;
 	}
-	// ft_putpixel(&infos->img, infos->r.x, infos->r.y, 0x00FF00);
 	infos->player.rayvx = infos->r.x;
 	infos->player.rayvy = infos->r.y;
 }
@@ -194,27 +138,21 @@ void	printhoridownright(double angle, t_info *infos)
 {
 	infos->r.x = infos->player.x;
 	infos->r.y = infos->player.y;
-	infos->r.adj = infos->blockmeter - fmod(infos->r.x, infos->blockmeter);
+	infos->r.adj = SIZE - fmod(infos->r.x, SIZE);
 	infos->r.op = tan(angletorad(fabs(90 - angle))) * infos->r.adj;
 	infos->r.x += infos->r.adj;
 	infos->r.y += infos->r.op;
-	// ft_putpixel(&infos->img, infos->r.x, infos->r.y, 0xFFFF00);
-	infos->r.xa = infos->blockmeter;
-	infos->r.ya = -infos->blockmeter / tan(angletorad(angle));
-	int	x;
-	int	y;
-
-	x = infos->r.x / infos->blockmeter;
-	y = infos->r.y / infos->blockmeter;
-	while (x > 0 && x < infos->maxx && y > 0 && y < infos->maxy && infos->map[y][x] == '0')
+	infos->r.xa = SIZE;
+	infos->r.ya = -SIZE / tan(angletorad(angle));
+	infos->mapx = infos->r.x / SIZE;
+	infos->mapy = infos->r.y / SIZE;
+	while (infos->mapx > 0 && infos->mapx < infos->maxx && infos->mapy > 0 && infos->mapy < infos->maxy && infos->map[infos->mapy][infos->mapx] == '0')
 	{
-		// ft_putpixel(&infos->img, infos->r.x, infos->r.y, 0x00FF00);
 		infos->r.x += infos->r.xa;
 		infos->r.y += infos->r.ya;
-		x = infos->r.x / infos->blockmeter;
-		y = infos->r.y / infos->blockmeter;
+		infos->mapx = infos->r.x / SIZE;
+		infos->mapy = infos->r.y / SIZE;
 	}
-	// ft_putpixel(&infos->img, infos->r.x, infos->r.y, 0x00FF00);
 	infos->player.rayhx = infos->r.x;
 	infos->player.rayhy = infos->r.y;
 }
@@ -223,27 +161,21 @@ void	printvertdownleft(double angle, t_info *infos)
 {
 	infos->r.x = infos->player.x;
 	infos->r.y = infos->player.y;
-	infos->r.adj = infos->blockmeter - fmod(infos->r.y, infos->blockmeter);
+	infos->r.adj = SIZE - fmod(infos->r.y, SIZE);
 	infos->r.op = tan(angletorad(fabs(180 - angle))) * infos->r.adj;
 	infos->r.x -= infos->r.op;
 	infos->r.y += infos->r.adj;
-	// ft_putpixel(&infos->img, infos->r.x, infos->r.y, 0x00FF00);
-	infos->r.ya = infos->blockmeter;
-	infos->r.xa = infos->blockmeter / tan(angletorad(fabs(90 - angle)));
-	int	x;
-	int	y;
-
-	x = infos->r.x / infos->blockmeter;
-	y = infos->r.y / infos->blockmeter;
-	while (x > 0 && x < infos->maxx && y > 0 && y < infos->maxy && infos->map[y][x] == '0')
+	infos->r.ya = SIZE;
+	infos->r.xa = SIZE / tan(angletorad(fabs(90 - angle)));
+	infos->mapx = infos->r.x / SIZE;
+	infos->mapy = infos->r.y / SIZE;
+	while (infos->mapx > 0 && infos->mapx < infos->maxx && infos->mapy > 0 && infos->mapy < infos->maxy && infos->map[infos->mapy][infos->mapx] == '0')
 	{
-		// ft_putpixel(&infos->img, infos->r.x, infos->r.y, 0x00FF00);
 		infos->r.x += infos->r.xa;
 		infos->r.y += infos->r.ya;
-		x = infos->r.x / infos->blockmeter;
-		y = infos->r.y / infos->blockmeter;
+		infos->mapx = infos->r.x / SIZE;
+		infos->mapy = infos->r.y / SIZE;
 	}
-	// ft_putpixel(&infos->img, infos->r.x, infos->r.y, 0x00FF00);
 	infos->player.rayvx = infos->r.x;
 	infos->player.rayvy = infos->r.y;
 }
@@ -252,27 +184,21 @@ void	printhoridownleft(double angle, t_info *infos)
 {
 	infos->r.x = infos->player.x;
 	infos->r.y = infos->player.y;
-	infos->r.adj = fmod(infos->r.x, infos->blockmeter);
+	infos->r.adj = fmod(infos->r.x, SIZE);
 	infos->r.op = tan(angletorad(fabs(270 - angle))) * infos->r.adj;
 	infos->r.x -= infos->r.adj;
 	infos->r.y += infos->r.op;
-	// ft_putpixel(&infos->img, infos->r.x, infos->r.y, 0xFFFF00);
-	infos->r.xa = -infos->blockmeter;
-	infos->r.ya = infos->blockmeter / tan(angletorad(fabs(180 - angle)));
-	int	x;
-	int	y;
-
-	x = infos->r.x / infos->blockmeter - 1;
-	y = infos->r.y / infos->blockmeter;
-	while (x > 0 && x < infos->maxx && y > 0 && y < infos->maxy && infos->map[y][x] == '0')
+	infos->r.xa = -SIZE;
+	infos->r.ya = SIZE / tan(angletorad(fabs(180 - angle)));
+	infos->mapx = infos->r.x / SIZE - 1.0;
+	infos->mapy = infos->r.y / SIZE;
+	while (infos->mapx > 0 && infos->mapx < infos->maxx && infos->mapy > 0 && infos->mapy < infos->maxy && infos->map[infos->mapy][infos->mapx] == '0')
 	{
-		// ft_putpixel(&infos->img, infos->r.x, infos->r.y, 0x00FF00);
 		infos->r.x += infos->r.xa;
 		infos->r.y += infos->r.ya;
-		x = infos->r.x / infos->blockmeter - 1;
-		y = infos->r.y / infos->blockmeter;
+		infos->mapx = infos->r.x / SIZE - 1.0;
+		infos->mapy = infos->r.y / SIZE;
 	}
-	// ft_putpixel(&infos->img, infos->r.x, infos->r.y, 0x00FF00);
 	infos->player.rayhx = infos->r.x;
 	infos->player.rayhy = infos->r.y;
 }
@@ -281,28 +207,21 @@ void	printvertupleft(double angle, t_info *infos)
 {
 	infos->r.x = infos->player.x;
 	infos->r.y = infos->player.y;
-	infos->r.adj = fmod(infos->r.y, infos->blockmeter);
+	infos->r.adj = fmod(infos->r.y, SIZE);
 	infos->r.op = tan(angletorad(fabs(360 - angle))) * infos->r.adj;
 	infos->r.x -= infos->r.op;
 	infos->r.y -= infos->r.adj;
-	// ft_putpixel(&infos->img, infos->r.x, infos->r.y, 0x00FF00);
-	infos->r.ya = -infos->blockmeter;
-	infos->r.xa = -infos->blockmeter / tan(angletorad(fabs(270 - angle)));
-	int	x;
-	int	y;
-
-	x = infos->r.x / infos->blockmeter;
-	y = infos->r.y / infos->blockmeter - 1;
-	// ft_putpixel(&infos->img, infos->r.x, infos->r.y, 0x00FF00);
-	while (x > 0 && x < infos->maxx && y > 0 && y < infos->maxy && infos->map[y][x] == '0')
+	infos->r.ya = -SIZE;
+	infos->r.xa = -SIZE / tan(angletorad(fabs(270 - angle)));
+	infos->mapx = infos->r.x / SIZE;
+	infos->mapy = infos->r.y / SIZE - 0.000001;
+	while (infos->mapx > 0 && infos->mapx < infos->maxx && infos->mapy > 0 && infos->mapy < infos->maxy && infos->map[infos->mapy][infos->mapx] == '0')
 	{
 		infos->r.x += infos->r.xa;
 		infos->r.y += infos->r.ya;
-		x = infos->r.x / infos->blockmeter;
-		y = infos->r.y / infos->blockmeter - 1;
-		// ft_putpixel(&infos->img, infos->r.x, infos->r.y, 0x00FF00);
+		infos->mapx = infos->r.x / SIZE;
+		infos->mapy = infos->r.y / SIZE - 0.000001;
 	}
-	// ft_putpixel(&infos->img, infos->r.x, infos->r.y, 0x00FF00);
 	infos->player.rayvx = infos->r.x;
 	infos->player.rayvy = infos->r.y;
 }
@@ -311,31 +230,47 @@ void	printhoriupleft(double angle, t_info *infos)
 {
 	infos->r.x = infos->player.x;
 	infos->r.y = infos->player.y;
-	infos->r.adj = fmod(infos->r.x, infos->blockmeter);
+	infos->r.adj = fmod(infos->r.x, SIZE);
 	infos->r.op = tan(angletorad(fabs(270 - angle))) * infos->r.adj;
 	infos->r.x -= infos->r.adj;
-	infos->r.y -= infos->r.op - 1;
-	// ft_putpixel(&infos->img, infos->r.x, infos->r.y, 0xFFFF00);
-	infos->r.xa = -infos->blockmeter;
-	infos->r.ya = -infos->blockmeter / tan(angletorad(fabs(360 - angle)));
-	int	x;
-	int	y;
-
-	x = infos->r.x / infos->blockmeter - 1;
-	y = infos->r.y / infos->blockmeter;
-	while (x > 0 && x < infos->maxx && y > 0 && y < infos->maxy && infos->map[y][x] == '0')
+	infos->r.y -= infos->r.op;
+	infos->r.xa = -SIZE;
+	infos->r.ya = -SIZE / tan(angletorad(fabs(360 - angle)));
+	infos->mapx = infos->r.x / SIZE - 0.000001;
+	infos->mapy = infos->r.y / SIZE - 0.000001;
+	while (infos->mapx > 0 && infos->mapx < infos->maxx && infos->mapy > 0 && infos->mapy < infos->maxy && infos->map[infos->mapy][infos->mapx] == '0')
 	{
-		// ft_putpixel(&infos->img, infos->r.x, infos->r.y, 0x00FF00);
 		infos->r.x += infos->r.xa;
 		infos->r.y += infos->r.ya;
-		x = infos->r.x / infos->blockmeter - 1;
-		y = infos->r.y / infos->blockmeter;
+		infos->mapx = infos->r.x / SIZE - 0.000001;
+		infos->mapy = infos->r.y / SIZE - 0.000001;
 	}
-	// ft_putpixel(&infos->img, infos->r.x, infos->r.y, 0x00FF00);
 	infos->player.rayhx = infos->r.x;
 	infos->player.rayhy = infos->r.y;
 }
 
+void	printup(double angle, t_info *infos)
+{
+	infos->r.x = infos->player.x;
+	infos->r.y = infos->player.y;
+	infos->r.adj = fmod(infos->r.x, SIZE);
+	infos->r.op = tan(angletorad(fabs(270 - angle))) * infos->r.adj;
+	infos->r.x -= infos->r.adj;
+	infos->r.y -= infos->r.op;
+	infos->r.xa = -SIZE;
+	infos->r.ya = -SIZE / tan(angletorad(fabs(360 - angle)));
+	infos->mapx = infos->r.x / SIZE - 0.000001;
+	infos->mapy = infos->r.y / SIZE - 0.000001;
+	while (infos->mapx > 0 && infos->mapx < infos->maxx && infos->mapy > 0 && infos->mapy < infos->maxy && infos->map[infos->mapy][infos->mapx] == '0')
+	{
+		infos->r.x += infos->r.xa;
+		infos->r.y += infos->r.ya;
+		infos->mapx = infos->r.x / SIZE - 0.000001;
+		infos->mapy = infos->r.y / SIZE - 0.000001;
+	}
+	infos->player.rayhx = infos->r.x;
+	infos->player.rayhy = infos->r.y;
+}
 void	printminimapblock(int y, int x, t_info *infos)
 {
 	int			ystart;
@@ -343,21 +278,21 @@ void	printminimapblock(int y, int x, t_info *infos)
 	int			yend;
 	int			xend;
 
-	ystart = y * infos->blockmeter;
-	xstart = x * infos->blockmeter;
-	yend = ystart + infos->blockmeter;
-	xend = xstart + infos->blockmeter;
+	ystart = y * SIZE;
+	xstart = x * SIZE;
+	yend = ystart + SIZE;
+	xend = xstart + SIZE;
 	while (ystart < yend)
 	{
-		xstart = x * infos->blockmeter;
+		xstart = x * SIZE;
 		while (xstart < xend)
 		{
 			if (infos->map[y][x] == '1')
 				ft_putpixel(&infos->img, xstart, ystart, 0x555555);
 			else if (ft_isin("NSWE", infos->map[y][x]))
 			{
-				infos->player.y = y * infos->blockmeter + infos->blockmeter / 2;
-				infos->player.x = x * infos->blockmeter + infos->blockmeter / 2;
+				infos->player.y = y * SIZE + SIZE / 2;
+				infos->player.x = x * SIZE + SIZE / 2;
 				ft_putpixel(&infos->img, xstart, ystart, 0xAA5500);
 				if (infos->map[y][x] == 'N')
 					infos->player.angle = 0;
@@ -371,7 +306,7 @@ void	printminimapblock(int y, int x, t_info *infos)
 			}
 			else
 				ft_putpixel(&infos->img, xstart, ystart, 0xFF0000);
-			if (!(xstart % infos->blockmeter) || !(ystart % infos->blockmeter))
+			if (!(fmod(xstart, SIZE)) || !(fmod(ystart, SIZE)))
 				ft_putpixel(&infos->img, xstart, ystart, 0x000000);
 			xstart++;
 		}
@@ -384,14 +319,14 @@ int	printplayer(t_info *infos)
 	int	x;
 	int	y;
 
-	x = infos->player.x / infos->blockmeter;
-	y = infos->player.y / infos->blockmeter;
+	x = infos->player.x / SIZE;
+	y = infos->player.y / SIZE;
 	if (infos->player.w && infos->map[y][x] != '1')
 	{
 		infos->player.y -= cos(angletorad(infos->player.angle)) * infos->player.speed;
 		infos->player.x += sin(angletorad(infos->player.angle)) * infos->player.speed;
-		x = infos->player.x / infos->blockmeter;
-		y = infos->player.y / infos->blockmeter;
+		x = infos->player.x / SIZE;
+		y = infos->player.y / SIZE;
 		if (infos->map[y][x] == '1')
 		{
 			infos->player.y += cos(angletorad(infos->player.angle)) * infos->player.speed;
@@ -402,8 +337,8 @@ int	printplayer(t_info *infos)
 	{
 		infos->player.y += cos(angletorad(infos->player.angle)) * infos->player.speed;
 		infos->player.x -= sin(angletorad(infos->player.angle)) * infos->player.speed;
-		x = infos->player.x / infos->blockmeter;
-		y = infos->player.y / infos->blockmeter;
+		x = infos->player.x / SIZE;
+		y = infos->player.y / SIZE;
 		if (infos->map[y][x] == '1')
 		{
 			infos->player.y -= cos(angletorad(infos->player.angle)) * infos->player.speed;
@@ -414,8 +349,8 @@ int	printplayer(t_info *infos)
 	{
 		infos->player.y -= sin(angletorad(infos->player.angle)) * infos->player.speed;
 		infos->player.x -= cos(angletorad(infos->player.angle)) * infos->player.speed;
-		x = infos->player.x / infos->blockmeter;
-		y = infos->player.y / infos->blockmeter;
+		x = infos->player.x / SIZE;
+		y = infos->player.y / SIZE;
 		if (infos->map[y][x] == '1')
 		{
 			infos->player.y += sin(angletorad(infos->player.angle)) * infos->player.speed;
@@ -426,8 +361,8 @@ int	printplayer(t_info *infos)
 	{
 		infos->player.y += sin(angletorad(infos->player.angle)) * infos->player.speed;
 		infos->player.x += cos(angletorad(infos->player.angle)) * infos->player.speed;
-		x = infos->player.x / infos->blockmeter;
-		y = infos->player.y / infos->blockmeter;
+		x = infos->player.x / SIZE;
+		y = infos->player.y / SIZE;
 		if (infos->map[y][x] == '1')
 		{
 			infos->player.y -= sin(angletorad(infos->player.angle)) * infos->player.speed;
@@ -472,6 +407,10 @@ void	printpoints(double angle, t_info *infos)
 		printvertupleft(angle, infos);
 		printhoriupleft(angle, infos);
 	}
+	else if (angle == 0)
+	{
+		printup(angle, infos);
+	}
 }
 
 void	printview(t_info *infos)
@@ -479,20 +418,20 @@ void	printview(t_info *infos)
 	double	i;
 	double	angle;
 
-	i = -180;
-	while (i < 180)
+	i = -30.0;
+	while (i < 30.0)
 	{
 		angle = infos->player.angle + i;
-		if (angle < 0)
-			angle = 360 + angle;
-		if (angle > 360)
+		if (angle < 0.0)
+			angle = 360.0 + angle;
+		if (angle > 360.0)
 			angle = angle - 360;
 		printpoints(angle, infos);
 		if (distance2(TRUE, infos) <= distance2(FALSE, infos))
 			dda(infos, infos->player.rayvx, infos->player.rayvy, TRUE);
 		else
 			dda(infos, infos->player.rayhx, infos->player.rayhy, FALSE);
-		i++;
+		i += 1.0;
 	}
 }
 

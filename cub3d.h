@@ -6,7 +6,7 @@
 /*   By: ztouzri <ztouzri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 01:35:50 by ztouzri           #+#    #+#             */
-/*   Updated: 2021/10/27 16:52:47 by ztouzri          ###   ########.fr       */
+/*   Updated: 2021/10/29 15:39:44 by ztouzri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # define SHIFT 257
 # define WIDTH 1920
 # define HEIGHT 1080
+# define SIZE 40
 
 typedef enum e_bool {
 	FALSE,
@@ -78,22 +79,21 @@ typedef struct s_info {
 	int		f;
 	int		c;
 	char	**map;
-	int		mapx;
-	int		mapy;
 	int		maxx;
 	int		maxy;
-	int		blockmeter;
 	t_pl	player;
 	void	*mlx;
 	void	*win;
 	t_img	img;
 	double	dx;
 	double	dy;
-	int		steps;
+	double	steps;
 	double	xinc;
 	double	yinc;
 	double	x;
 	double	y;
+	int		mapx;
+	int		mapy;
 	t_ray	r;
 }				t_info;
 
