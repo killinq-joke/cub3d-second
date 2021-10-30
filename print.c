@@ -266,6 +266,63 @@ void	printup(t_info *infos)
 	infos->player.rayvx = infos->r.x;
 	infos->player.rayvy = infos->r.y;
 }
+
+void	printright(t_info *infos)
+{
+	infos->r.x = infos->player.x;
+	infos->r.y = infos->player.y;
+	infos->r.adj = SIZE - fmod(infos->r.x, SIZE);
+	infos->r.x += infos->r.adj;
+	infos->r.xa = SIZE;
+	infos->mapx = infos->r.x / SIZE;
+	infos->mapy = infos->r.y / SIZE;
+	while (infos->mapx > 0 && infos->mapx < infos->maxx && infos->mapy > 0 && infos->mapy < infos->maxy && infos->map[infos->mapy][infos->mapx] == '0')
+	{
+		infos->r.x += infos->r.xa;
+		infos->mapx = infos->r.x / SIZE;
+		infos->mapy = infos->r.y / SIZE;
+	}
+	infos->player.rayhx = infos->r.x;
+	infos->player.rayhy = infos->r.y;
+}
+
+void	printdown(t_info *infos)
+{
+	infos->r.x = infos->player.x;
+	infos->r.y = infos->player.y;
+	infos->r.adj = SIZE - fmod(infos->r.y, SIZE);
+	infos->r.y += infos->r.adj;
+	infos->r.ya = SIZE;
+	infos->mapx = infos->r.x / SIZE;
+	infos->mapy = infos->r.y / SIZE;
+	while (infos->mapx > 0 && infos->mapx < infos->maxx && infos->mapy > 0 && infos->mapy < infos->maxy && infos->map[infos->mapy][infos->mapx] == '0')
+	{
+		infos->r.y += infos->r.ya;
+		infos->mapy = infos->r.y / SIZE;
+	}
+	infos->player.rayvx = infos->r.x;
+	infos->player.rayvy = infos->r.y;
+}
+
+void	printleft(t_info *infos)
+{
+	infos->r.x = infos->player.x;
+	infos->r.y = infos->player.y;
+	infos->r.adj = fmod(infos->r.x, SIZE);
+	infos->r.x -= infos->r.adj;
+	infos->r.xa = -SIZE;
+	infos->mapx = infos->r.x / SIZE - 0.000001;
+	infos->mapy = infos->r.y / SIZE;
+	while (infos->mapx > 0 && infos->mapx < infos->maxx && infos->mapy > 0 && infos->mapy < infos->maxy && infos->map[infos->mapy][infos->mapx] == '0')
+	{
+		infos->r.x += infos->r.xa;
+		infos->mapx = infos->r.x / SIZE - 0.000001;
+		infos->mapy = infos->r.y / SIZE;
+	}
+	infos->player.rayhx = infos->r.x;
+	infos->player.rayhy = infos->r.y;
+}
+
 void	printminimapblock(int y, int x, t_info *infos)
 {
 	int			ystart;
@@ -403,9 +460,13 @@ void	printpoints(double angle, t_info *infos)
 		printhoriupleft(angle, infos);
 	}
 	else if (angle == 0)
-	{
 		printup(infos);
-	}
+	else if (angle == 90)
+		printright(infos);
+	else if (angle == 180)
+		printdown(infos);
+	else if (angle == 270)
+		printleft(infos);
 }
 
 void	printview(t_info *infos)
@@ -413,8 +474,8 @@ void	printview(t_info *infos)
 	int	i;
 	int	angle;
 
-	i = -30;
-	while (i < 30)
+	i = -180;
+	while (i < 180)
 	{
 		angle = infos->player.angle + i;
 		if (angle < 0.0)
@@ -422,8 +483,6 @@ void	printview(t_info *infos)
 		if (angle >= 360)
 			angle = angle - 360;
 		printpoints(angle, infos);
-		// if (angle == 0 || angle == 180)
-		// 	dda(infos, infos->player.rayhx, infos->player.rayhy, FALSE);
 		if (distance2(TRUE, infos) <= distance2(FALSE, infos))
 			dda(infos, infos->player.rayvx, infos->player.rayvy, TRUE);
 		else
