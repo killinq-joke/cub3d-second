@@ -121,13 +121,13 @@ void	printvertdownright(double angle, t_info *infos)
 	infos->r.y += infos->r.adj;
 	infos->r.ya = SIZE;
 	infos->r.xa = SIZE / tan(angletorad(fabs(90 - angle)));
-	infos->mapx = infos->r.x / SIZE;
+	infos->mapx = infos->r.x / SIZE - 0.000001;
 	infos->mapy = infos->r.y / SIZE;
 	while (infos->mapx > 0 && infos->mapx < infos->maxx && infos->mapy > 0 && infos->mapy < infos->maxy && infos->map[infos->mapy][infos->mapx] == '0')
 	{
 		infos->r.x += infos->r.xa;
 		infos->r.y += infos->r.ya;
-		infos->mapx = infos->r.x / SIZE;
+		infos->mapx = infos->r.x / SIZE - 0.000001;
 		infos->mapy = infos->r.y / SIZE;
 	}
 	infos->player.rayvx = infos->r.x;
@@ -144,14 +144,14 @@ void	printhoridownright(double angle, t_info *infos)
 	infos->r.y += infos->r.op;
 	infos->r.xa = SIZE;
 	infos->r.ya = -SIZE / tan(angletorad(angle));
-	infos->mapx = infos->r.x / SIZE;
-	infos->mapy = infos->r.y / SIZE;
+	infos->mapx = infos->r.x / SIZE + 0.000001;
+	infos->mapy = infos->r.y / SIZE + 0.000001;
 	while (infos->mapx > 0 && infos->mapx < infos->maxx && infos->mapy > 0 && infos->mapy < infos->maxy && infos->map[infos->mapy][infos->mapx] == '0')
 	{
 		infos->r.x += infos->r.xa;
 		infos->r.y += infos->r.ya;
-		infos->mapx = infos->r.x / SIZE;
-		infos->mapy = infos->r.y / SIZE;
+		infos->mapx = infos->r.x / SIZE + 0.000001;
+		infos->mapy = infos->r.y / SIZE + 0.000001;
 	}
 	infos->player.rayhx = infos->r.x;
 	infos->player.rayhy = infos->r.y;
