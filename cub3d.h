@@ -6,7 +6,7 @@
 /*   By: ztouzri <ztouzri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 01:35:50 by ztouzri           #+#    #+#             */
-/*   Updated: 2021/10/29 15:39:44 by ztouzri          ###   ########.fr       */
+/*   Updated: 2021/10/30 16:02:06 by ztouzri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@
 # define RIGHTARR 124
 # define ESC 53
 # define SHIFT 257
-# define WIDTH 1920
-# define HEIGHT 1080
+# define WIDTH 480
+# define HEIGHT 360
 # define SIZE 40
 
 typedef enum e_bool {

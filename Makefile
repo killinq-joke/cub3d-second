@@ -6,7 +6,7 @@
 #    By: ztouzri <ztouzri@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/24 01:37:39 by ztouzri           #+#    #+#              #
-#    Updated: 2021/10/24 15:38:09 by ztouzri          ###   ########.fr        #
+#    Updated: 2021/10/30 16:01:43 by ztouzri          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ $(NAME):	$(OBJS) $(INCS)
 
 .PHONY: all clean fclean re bonus
 
-all: $(NAME)
+all: $(NAME) $(INCS)
 
 clean:
 	$(RM) $(OBJS) $(LIB)

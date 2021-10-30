@@ -6,7 +6,7 @@
 /*   By: ztouzri <ztouzri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 02:15:53 by ztouzri           #+#    #+#             */
-/*   Updated: 2021/10/12 15:43:32 by ztouzri          ###   ########.fr       */
+/*   Updated: 2021/10/30 15:53:56 by ztouzri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ t_bool	crosscheck(char **map, int y, int x)
 	|| map[y][x - 1] == ' '
 	|| map[y][x + 1] == ' ')
 	{
-		printf("y == %d x == %d\n", y, x);
+		// printf("y == %d x == %d\n", y, x);
 		return (FALSE);
 	}
 	return (TRUE);
