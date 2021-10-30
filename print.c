@@ -249,27 +249,22 @@ void	printhoriupleft(double angle, t_info *infos)
 	infos->player.rayhy = infos->r.y;
 }
 
-void	printup(double angle, t_info *infos)
+void	printup(t_info *infos)
 {
 	infos->r.x = infos->player.x;
 	infos->r.y = infos->player.y;
-	infos->r.adj = fmod(infos->r.x, SIZE);
-	infos->r.op = tan(angletorad(fabs(270 - angle))) * infos->r.adj;
-	infos->r.x -= infos->r.adj;
-	infos->r.y -= infos->r.op;
-	infos->r.xa = -SIZE;
-	infos->r.ya = -SIZE / tan(angletorad(fabs(360 - angle)));
-	infos->mapx = infos->r.x / SIZE - 0.000001;
+	infos->r.adj = fmod(infos->r.y, SIZE);
+	infos->r.y -= infos->r.adj;
+	infos->r.ya = -SIZE;
+	infos->mapx = infos->r.x / SIZE;
 	infos->mapy = infos->r.y / SIZE - 0.000001;
 	while (infos->mapx > 0 && infos->mapx < infos->maxx && infos->mapy > 0 && infos->mapy < infos->maxy && infos->map[infos->mapy][infos->mapx] == '0')
 	{
-		infos->r.x += infos->r.xa;
 		infos->r.y += infos->r.ya;
-		infos->mapx = infos->r.x / SIZE - 0.000001;
 		infos->mapy = infos->r.y / SIZE - 0.000001;
 	}
-	infos->player.rayhx = infos->r.x;
-	infos->player.rayhy = infos->r.y;
+	infos->player.rayvx = infos->r.x;
+	infos->player.rayvy = infos->r.y;
 }
 void	printminimapblock(int y, int x, t_info *infos)
 {
@@ -409,29 +404,31 @@ void	printpoints(double angle, t_info *infos)
 	}
 	else if (angle == 0)
 	{
-		printup(angle, infos);
+		printup(infos);
 	}
 }
 
 void	printview(t_info *infos)
 {
-	double	i;
-	double	angle;
+	int	i;
+	int	angle;
 
-	i = -30.0;
-	while (i < 30.0)
+	i = -30;
+	while (i < 30)
 	{
 		angle = infos->player.angle + i;
 		if (angle < 0.0)
-			angle = 360.0 + angle;
-		if (angle > 360.0)
+			angle = 360 + angle;
+		if (angle >= 360)
 			angle = angle - 360;
 		printpoints(angle, infos);
+		// if (angle == 0 || angle == 180)
+		// 	dda(infos, infos->player.rayhx, infos->player.rayhy, FALSE);
 		if (distance2(TRUE, infos) <= distance2(FALSE, infos))
 			dda(infos, infos->player.rayvx, infos->player.rayvy, TRUE);
 		else
 			dda(infos, infos->player.rayhx, infos->player.rayhy, FALSE);
-		i += 1.0;
+		i += 1;
 	}
 }
 
