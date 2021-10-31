@@ -512,7 +512,7 @@ void	showfps(t_info *infos)
 {
 	// int		x;
 	double	i;
-	int		angle;
+	double	angle;
 
 	// x = 0;
 	i = 0;

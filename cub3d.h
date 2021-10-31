@@ -6,7 +6,7 @@
 /*   By: ztouzri <ztouzri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 01:35:50 by ztouzri           #+#    #+#             */
-/*   Updated: 2021/10/31 10:05:11 by ztouzri          ###   ########.fr       */
+/*   Updated: 2021/10/31 11:55:17 by ztouzri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@
 # define WIDTH 1920
 # define HEIGHT 1080
 # define SIZE 40
+# define NSPEED 3
+# define SSPEED 5
 
 typedef enum e_bool {
 	FALSE,

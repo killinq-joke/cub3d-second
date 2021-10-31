@@ -6,7 +6,7 @@
 /*   By: ztouzri <ztouzri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 15:28:16 by ztouzri           #+#    #+#             */
-/*   Updated: 2021/10/15 17:29:23 by ztouzri          ###   ########.fr       */
+/*   Updated: 2021/10/31 11:55:34 by ztouzri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	keypress(int key, t_info *infos)
 	if (key == D)
 		infos->player.d = TRUE;
 	if (key == SHIFT)
-		infos->player.speed = 2;
+		infos->player.speed = SSPEED;
 	if (key == LEFTARR)
 		infos->player.left = TRUE;
 	if (key == RIGHTARR)
@@ -52,7 +52,7 @@ int	keyrelease(int key, t_info *infos)
 	if (key == D)
 		infos->player.d = FALSE;
 	if (key == SHIFT)
-		infos->player.speed = 1;
+		infos->player.speed = NSPEED;
 	if (key == LEFTARR)
 		infos->player.left = FALSE;
 	if (key == RIGHTARR)

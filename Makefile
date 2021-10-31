@@ -6,12 +6,12 @@
 #    By: ztouzri <ztouzri@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/24 01:37:39 by ztouzri           #+#    #+#              #
-#    Updated: 2021/10/24 15:38:09 by ztouzri          ###   ########.fr        #
+#    Updated: 2021/10/31 11:52:28 by ztouzri          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC		= gcc
-CFLAGS	= -Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS	= -Wall -Wextra -Werror
 NAME	= cub3D
 LIB		= libft.a
 SRCS	= main.c parsing.c checker.c fill.c fill1.c free.c print.c events.c

@@ -6,7 +6,7 @@
 /*   By: ztouzri <ztouzri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 01:35:32 by ztouzri           #+#    #+#             */
-/*   Updated: 2021/10/31 09:47:14 by ztouzri          ###   ########.fr       */
+/*   Updated: 2021/10/31 11:55:41 by ztouzri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	init(int fd, char *windowname, t_info *infos)
 	infos->img.addr = mlx_get_data_addr(infos->img.img,
 			&infos->img.bits_per_pixel, &infos->img.line_length,
 			&infos->img.endian);
-	infos->player.speed = 1;
+	infos->player.speed = NSPEED;
 }
 
 void	initplayer(t_info *infos)
