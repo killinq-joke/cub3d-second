@@ -6,7 +6,7 @@
 /*   By: ztouzri <ztouzri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 01:35:32 by ztouzri           #+#    #+#             */
-/*   Updated: 2021/10/29 15:39:56 by ztouzri          ###   ########.fr       */
+/*   Updated: 2021/10/31 09:47:14 by ztouzri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,40 @@ void	init(int fd, char *windowname, t_info *infos)
 		exit(1);
 	}
 	infos->mlx = mlx_init();
-	infos->win = mlx_new_window(infos->mlx, 1920, 1080, "cub3D");
+	infos->win = mlx_new_window(infos->mlx, WIDTH, HEIGHT, "cub3D");
 	mlx_hook(infos->win, 17, 0L, destroy_window, infos);
 	mlx_hook(infos->win, 02, 1L << 0, keypress, infos);
 	mlx_hook(infos->win, 03, 1L << 1, keyrelease, infos);
 	mlx_hook(infos->win, 06, 1L << 6, motion, infos);
-	infos->img.img = mlx_new_image(infos->mlx, 1920, 1080);
+	infos->img.img = mlx_new_image(infos->mlx, WIDTH, HEIGHT);
 	infos->img.addr = mlx_get_data_addr(infos->img.img,
 			&infos->img.bits_per_pixel, &infos->img.line_length,
 			&infos->img.endian);
 	infos->player.speed = 1;
+}
+
+void	initplayer(t_info *infos)
+{
+	int	y;
+	int	x;
+
+	y = 0;
+	while (infos->map[y])
+	{
+		x = 0;
+		while (infos->map[y][x])
+		{
+			if (ft_isin("NSWE", infos->map[y][x]))
+			{
+				infos->player.x = x * SIZE + SIZE / 2;
+				infos->player.y = y * SIZE + SIZE / 2;
+				infos->map[y][x] = '0';
+				return ;
+			}
+			x++;
+		}
+		y++;
+	}
 }
 
 int	main(int ac, char **av)
@@ -48,7 +72,7 @@ int	main(int ac, char **av)
 		{
 			infos = initinfo();
 			init(fd, av[1], infos);
-			printminimap(infos);
+			initplayer(infos);
 			mlx_loop_hook(infos->mlx, printminimap, infos);
 			mlx_loop(infos->mlx);
 		}

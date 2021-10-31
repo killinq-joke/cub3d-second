@@ -16,7 +16,7 @@ void	ft_putpixel(t_img *img, int x, int y, int color)
 {
 	char	*dst;
 
-	if (x >= 0 && x <= 1920 && y >= 0 && y <= 1080)
+	if (x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT)
 	{
 		dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
 		*(unsigned int *)dst = color;
@@ -341,21 +341,6 @@ void	printminimapblock(int y, int x, t_info *infos)
 		{
 			if (infos->map[y][x] == '1')
 				ft_putpixel(&infos->img, xstart, ystart, 0x555555);
-			else if (ft_isin("NSWE", infos->map[y][x]))
-			{
-				infos->player.y = y * SIZE + SIZE / 2;
-				infos->player.x = x * SIZE + SIZE / 2;
-				ft_putpixel(&infos->img, xstart, ystart, 0xAA5500);
-				if (infos->map[y][x] == 'N')
-					infos->player.angle = 0;
-				if (infos->map[y][x] == 'S')
-					infos->player.angle = 180;
-				if (infos->map[y][x] == 'E')
-					infos->player.angle = 90;
-				if (infos->map[y][x] == 'W')
-					infos->player.angle = 270;
-				infos->map[y][x] = '0';
-			}
 			else
 				ft_putpixel(&infos->img, xstart, ystart, 0xFF0000);
 			if (!(fmod(xstart, SIZE)) || !(fmod(ystart, SIZE)))
@@ -433,7 +418,7 @@ int	printplayer(t_info *infos)
 			infos->player.angle = -1;
 		infos->player.angle++;
 	}
-	ft_putpixel(&infos->img, infos->player.x, infos->player.y, 0x00FF00);
+	// ft_putpixel(&infos->img, infos->player.x, infos->player.y, 0x00FF00);
 	return (1);
 }
 
@@ -474,8 +459,8 @@ void	printview(t_info *infos)
 	int	i;
 	int	angle;
 
-	i = -180;
-	while (i < 180)
+	i = -30;
+	while (i < 30)
 	{
 		angle = infos->player.angle + i;
 		if (angle < 0.0)
@@ -483,11 +468,67 @@ void	printview(t_info *infos)
 		if (angle >= 360)
 			angle = angle - 360;
 		printpoints(angle, infos);
-		if (distance2(TRUE, infos) <= distance2(FALSE, infos))
+		if (distance2(TRUE, infos) < distance2(FALSE, infos))
 			dda(infos, infos->player.rayvx, infos->player.rayvy, TRUE);
 		else
 			dda(infos, infos->player.rayhx, infos->player.rayhy, FALSE);
 		i += 1;
+	}
+}
+
+void	showvertline(t_info *infos, double i, double distance, t_bool vert)
+{
+	double	x;
+	int		y;
+	double	start;
+	double	end;
+
+	distance *= cos(angletorad(30 - i));
+	start = HEIGHT / 2 - (SIZE / distance * WIDTH / 2 / tan(angletorad(30)) / 2);
+	end = HEIGHT / 2 + (SIZE / distance * WIDTH / 2 / tan(angletorad(30)) / 2);
+	x = round(i * WIDTH / 60.0);
+	y = 0;
+	while (y < HEIGHT / 2)
+	{
+		ft_putpixel(&infos->img, x, y, infos->c);
+		y++;
+	}
+	while (y < HEIGHT)
+	{
+		ft_putpixel(&infos->img, x, y, infos->f);
+		y++;
+	}
+	while (start < end)
+	{
+		if (vert)
+			ft_putpixel(&infos->img, x, start, 0x00FF00);
+		else
+			ft_putpixel(&infos->img, x, start, 0x0000FF);
+		start++;
+	}
+}
+
+void	showfps(t_info *infos)
+{
+	// int		x;
+	double	i;
+	int		angle;
+
+	// x = 0;
+	i = 0;
+	while (i < 60)
+	{
+		angle = infos->player.angle + i - 30.0;
+		if (angle < 0.0)
+			angle = 360 + angle;
+		if (angle >= 360)
+			angle = angle - 360;
+		printpoints(angle, infos);
+		if (distance2(TRUE, infos) < distance2(FALSE, infos))
+			showvertline(infos, i, distance2(TRUE, infos), TRUE);
+		else
+			showvertline(infos, i, distance2(FALSE, infos), FALSE);
+		i += 60.0 / WIDTH;
 	}
 }
 
@@ -496,24 +537,36 @@ int	printminimap(t_info *infos)
 	int	x;
 	int	y;
 
+	// printpoints(infos->player.angle, infos);
+	// if (distance2(TRUE, infos) <= distance2(FALSE, infos))
+	// 	dda(infos, infos->player.rayvx, infos->player.rayvy, TRUE);
+	// else
+	// 	dda(infos, infos->player.rayhx, infos->player.rayhy, FALSE);
+	showfps(infos);
+	// y = 0;
+	// while (y < infos->maxy)
+	// {
+	// 	x = 0;
+	// 	while (x < infos->maxx)
+	// 	{
+	// 		printminimapblock(y, x, infos);
+	// 		x++;
+	// 	}
+	// 	y++;
+	// }
 	y = 0;
 	while (y < infos->maxy)
 	{
 		x = 0;
 		while (x < infos->maxx)
 		{
-			printminimapblock(y, x, infos);
+			// printminimapblock(y, x, infos);
 			x++;
 		}
 		y++;
 	}
 	printplayer(infos);
-	// printpoints(infos->player.angle, infos);
-	// if (distance2(TRUE, infos) <= distance2(FALSE, infos))
-	// 	dda(infos, infos->player.rayvx, infos->player.rayvy, TRUE);
-	// else
-	// 	dda(infos, infos->player.rayhx, infos->player.rayhy, FALSE);
-	printview(infos);
+	// printview(infos);
 	mlx_put_image_to_window(infos->mlx, infos->win, infos->img.img, 0, 0);
 	return (1);
 }
