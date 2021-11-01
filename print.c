@@ -56,9 +56,9 @@ void	dda(t_info *infos, double rayx, double rayy, t_bool vert)
     while (i <= infos->steps)
     {
 		if (vert)
-			ft_putpixel(&infos->img, round(infos->x), round(infos->y), 0x00FF00);
+			ft_putpixel(&infos->img, round(infos->x) * infos->scale, round(infos->y) * infos->scale, 0x00FF00);
 		else
-			ft_putpixel(&infos->img, round(infos->x), round(infos->y), 0x0000FF);
+			ft_putpixel(&infos->img, round(infos->x) * infos->scale, round(infos->y) * infos->scale, 0x0000FF);
         infos->x += infos->xinc;
         infos->y += infos->yinc;
 		i++;
@@ -330,20 +330,20 @@ void	printminimapblock(int y, int x, t_info *infos)
 	int			yend;
 	int			xend;
 
-	ystart = y * SIZE;
-	xstart = x * SIZE;
-	yend = ystart + SIZE;
-	xend = xstart + SIZE;
+	ystart = y * SIZE * infos->scale;
+	xstart = x * SIZE * infos->scale;
+	yend = ystart + SIZE * infos->scale;
+	xend = xstart + SIZE * infos->scale;
 	while (ystart < yend)
 	{
-		xstart = x * SIZE;
+		xstart = x * SIZE * infos->scale;
 		while (xstart < xend)
 		{
 			if (infos->map[y][x] == '1')
 				ft_putpixel(&infos->img, xstart, ystart, 0x555555);
 			else
 				ft_putpixel(&infos->img, xstart, ystart, 0xFF0000);
-			if (!(fmod(xstart, SIZE)) || !(fmod(ystart, SIZE)))
+			if (!(fmod(xstart, SIZE * infos->scale)) || !(fmod(ystart, SIZE * infos->scale)))
 				ft_putpixel(&infos->img, xstart, ystart, 0x000000);
 			xstart++;
 		}
@@ -456,13 +456,13 @@ void	printpoints(double angle, t_info *infos)
 
 void	printview(t_info *infos)
 {
-	int	i;
-	int	angle;
+	double	i;
+	double	angle;
 
-	i = -30;
-	while (i < 30)
+	i = 0;
+	while (i < 60)
 	{
-		angle = infos->player.angle + i;
+		angle = infos->player.angle + i - 30;
 		if (angle < 0.0)
 			angle = 360 + angle;
 		if (angle >= 360)
@@ -472,7 +472,7 @@ void	printview(t_info *infos)
 			dda(infos, infos->player.rayvx, infos->player.rayvy, TRUE);
 		else
 			dda(infos, infos->player.rayhx, infos->player.rayhy, FALSE);
-		i += 1;
+		i += 60.0 / WIDTH;
 	}
 }
 
@@ -550,39 +550,30 @@ int	printminimap(t_info *infos)
 {
 	int	x;
 	int	y;
+	int	width;
+	int	height;
 
 	// printpoints(infos->player.angle, infos);
 	// if (distance2(TRUE, infos) <= distance2(FALSE, infos))
 	// 	dda(infos, infos->player.rayvx, infos->player.rayvy, TRUE);
 	// else
 	// 	dda(infos, infos->player.rayhx, infos->player.rayhy, FALSE);
-	showfps(infos);
-	// y = 0;
-	// while (y < infos->maxy)
-	// {
-	// 	x = 0;
-	// 	while (x < infos->maxx)
-	// 	{
-	// 		printminimapblock(y, x, infos);
-	// 		x++;
-	// 	}
-	// 	y++;
-	// }
+	// showfps(infos);
 	y = 0;
 	while (y < infos->maxy)
 	{
 		x = 0;
 		while (x < infos->maxx)
 		{
-			// printminimapblock(y, x, infos);
+			printminimapblock(y, x, infos);
 			x++;
 		}
 		y++;
 	}
 	printplayer(infos);
-	// printview(infos);
+	printview(infos);
 	mlx_put_image_to_window(infos->mlx, infos->win, infos->img.img, 0, 0);
-	// infos->xpmno.img = mlx_xpm_file_to_image(infos->mlx, infos->no, &width, &height);
+	infos->xpmno.img = mlx_xpm_file_to_image(infos->mlx, infos->no, &width, &height);
 	// printf("\n", infos->xpmno.img);
 	// mlx_put_image_to_window(infos->mlx, infos->win, infos->xpmno.img, 0, 0);
 	return (1);

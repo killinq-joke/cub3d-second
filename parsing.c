@@ -6,7 +6,7 @@
 /*   By: ztouzri <ztouzri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 02:26:48 by ztouzri           #+#    #+#             */
-/*   Updated: 2021/10/31 12:15:02 by ztouzri          ###   ########.fr       */
+/*   Updated: 2021/11/01 12:59:26 by ztouzri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ t_info	*initinfo(void)
 	infos->f = 0;
 	infos->c = 0;
 	infos->map = NULL;
+	infos->scale = 0.5;
 	return (infos);
 }
 

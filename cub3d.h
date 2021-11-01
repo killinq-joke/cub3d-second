@@ -6,7 +6,7 @@
 /*   By: ztouzri <ztouzri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 01:35:50 by ztouzri           #+#    #+#             */
-/*   Updated: 2021/11/01 11:14:34 by ztouzri          ###   ########.fr       */
+/*   Updated: 2021/11/01 12:59:37 by ztouzri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 # define SHIFT 257
 # define WIDTH 1920
 # define HEIGHT 1080
-# define SIZE 64
+# define SIZE 32
 # define NSPEED 4
 # define SSPEED 9
 
@@ -109,6 +109,7 @@ typedef struct s_info {
 	int		mapy;
 	t_ray	r;
 	t_side	side;
+	double	scale;
 }				t_info;
 
 //checker.c
