@@ -6,7 +6,7 @@
 /*   By: ztouzri <ztouzri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 01:35:32 by ztouzri           #+#    #+#             */
-/*   Updated: 2021/10/31 19:42:33 by ztouzri          ###   ########.fr       */
+/*   Updated: 2021/11/01 16:06:33 by ztouzri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,14 @@ void	init(int fd, char *windowname, t_info *infos)
 	infos->img.addr = mlx_get_data_addr(infos->img.img,
 			&infos->img.bits_per_pixel, &infos->img.line_length,
 			&infos->img.endian);
+	infos->img.width = WIDTH;
+	infos->img.height = HEIGHT;
+	infos->minimap.img = mlx_new_image(infos->mlx, SIZE * infos->scale * infos->maxx, SIZE * infos->scale * infos->maxy);
+	infos->minimap.addr = mlx_get_data_addr(infos->minimap.img,
+			&infos->minimap.bits_per_pixel, &infos->minimap.line_length,
+			&infos->minimap.endian);
+	infos->minimap.width = SIZE * infos->scale * infos->maxx;
+	infos->minimap.height = SIZE * infos->scale * infos->maxy;
 	infos->player.speed = NSPEED;
 }
 
@@ -58,6 +66,8 @@ void	initplayer(t_info *infos)
 		}
 		y++;
 	}
+	infos->xpmno.img = mlx_xpm_file_to_image(infos->mlx, infos->no, &infos->xpmno.width, &infos->xpmno.height);
+	//calculer l'offset
 }
 
 int	main(int ac, char **av)

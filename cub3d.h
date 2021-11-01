@@ -6,7 +6,7 @@
 /*   By: ztouzri <ztouzri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 01:35:50 by ztouzri           #+#    #+#             */
-/*   Updated: 2021/11/01 12:59:37 by ztouzri          ###   ########.fr       */
+/*   Updated: 2021/11/01 14:59:47 by ztouzri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ typedef struct s_img {
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
+	double	width;
+	double	height;
 }				t_img;
 
 typedef struct s_info {
@@ -94,6 +96,7 @@ typedef struct s_info {
 	void	*mlx;
 	void	*win;
 	t_img	img;
+	t_img	minimap;
 	t_img	xpmno;
 	t_img	xpmso;
 	t_img	xpmwe;
