@@ -6,7 +6,7 @@
 /*   By: ztouzri <ztouzri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 15:57:14 by ztouzri           #+#    #+#             */
-/*   Updated: 2021/10/12 17:50:40 by ztouzri          ###   ########.fr       */
+/*   Updated: 2021/10/31 12:15:22 by ztouzri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	freeinfo(t_info *infos)
 {
-	close(infos->no);
+	free(infos->no);
 	close(infos->so);
 	close(infos->we);
 	close(infos->ea);

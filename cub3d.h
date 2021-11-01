@@ -6,7 +6,7 @@
 /*   By: ztouzri <ztouzri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 01:35:50 by ztouzri           #+#    #+#             */
-/*   Updated: 2021/10/31 11:55:17 by ztouzri          ###   ########.fr       */
+/*   Updated: 2021/11/01 11:14:34 by ztouzri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,21 @@
 # define SHIFT 257
 # define WIDTH 1920
 # define HEIGHT 1080
-# define SIZE 40
-# define NSPEED 3
-# define SSPEED 5
+# define SIZE 64
+# define NSPEED 4
+# define SSPEED 9
 
 typedef enum e_bool {
 	FALSE,
 	TRUE,
 }				t_bool;
+
+typedef enum e_side {
+	NORTH,
+	SOUTH,
+	WEST,
+	EAST,
+}				t_side;
 
 typedef struct s_ray {
 	double	x;
@@ -74,7 +81,7 @@ typedef struct s_img {
 }				t_img;
 
 typedef struct s_info {
-	int		no;
+	char	*no;
 	int		so;
 	int		we;
 	int		ea;
@@ -87,6 +94,10 @@ typedef struct s_info {
 	void	*mlx;
 	void	*win;
 	t_img	img;
+	t_img	xpmno;
+	t_img	xpmso;
+	t_img	xpmwe;
+	t_img	xpmea;
 	double	dx;
 	double	dy;
 	double	steps;
@@ -97,6 +108,7 @@ typedef struct s_info {
 	int		mapx;
 	int		mapy;
 	t_ray	r;
+	t_side	side;
 }				t_info;
 
 //checker.c

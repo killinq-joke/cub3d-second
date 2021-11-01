@@ -410,13 +410,13 @@ int	printplayer(t_info *infos)
 	{
 		if (infos->player.angle <= 0)
 			infos->player.angle = 360;
-		infos->player.angle--;
+		infos->player.angle -= 3.1;
 	}
 	if (infos->player.right)
 	{
 		if (infos->player.angle >= 360)
 			infos->player.angle = -1;
-		infos->player.angle++;
+		infos->player.angle += 3.1;
 	}
 	// ft_putpixel(&infos->img, infos->player.x, infos->player.y, 0x00FF00);
 	return (1);
@@ -476,7 +476,7 @@ void	printview(t_info *infos)
 	}
 }
 
-void	showvertline(t_info *infos, double i, double distance, t_bool vert)
+void	showvertline(t_info *infos, double i, double distance)
 {
 	double	x;
 	int		y;
@@ -500,8 +500,12 @@ void	showvertline(t_info *infos, double i, double distance, t_bool vert)
 	}
 	while (start < end)
 	{
-		if (vert)
-			ft_putpixel(&infos->img, x, start, 0x00FF00);
+		if (infos->side == NORTH)
+			ft_putpixel(&infos->img, x, start, 0x00FFFF);
+		else if (infos->side == SOUTH)
+			ft_putpixel(&infos->img, x, start, 0x0FF000);
+		else if (infos->side == WEST)
+			ft_putpixel(&infos->img, x, start, 0xFFFFF0);
 		else
 			ft_putpixel(&infos->img, x, start, 0x0000FF);
 		start++;
@@ -510,11 +514,9 @@ void	showvertline(t_info *infos, double i, double distance, t_bool vert)
 
 void	showfps(t_info *infos)
 {
-	// int		x;
 	double	i;
 	double	angle;
 
-	// x = 0;
 	i = 0;
 	while (i < 60)
 	{
@@ -525,9 +527,21 @@ void	showfps(t_info *infos)
 			angle = angle - 360;
 		printpoints(angle, infos);
 		if (distance2(TRUE, infos) < distance2(FALSE, infos))
-			showvertline(infos, i, distance2(TRUE, infos), TRUE);
+		{
+			if ((angle > 270 && angle <= 360) || (angle >= 0 && angle < 90))
+				infos->side = NORTH;
+			else
+				infos->side = SOUTH;
+			showvertline(infos, i, distance2(TRUE, infos));
+		}
 		else
-			showvertline(infos, i, distance2(FALSE, infos), FALSE);
+		{
+			if (angle > 0 && angle < 180)
+				infos->side = EAST;
+			else
+				infos->side = WEST;
+			showvertline(infos, i, distance2(FALSE, infos));
+		}
 		i += 60.0 / WIDTH;
 	}
 }
@@ -568,5 +582,8 @@ int	printminimap(t_info *infos)
 	printplayer(infos);
 	// printview(infos);
 	mlx_put_image_to_window(infos->mlx, infos->win, infos->img.img, 0, 0);
+	// infos->xpmno.img = mlx_xpm_file_to_image(infos->mlx, infos->no, &width, &height);
+	// printf("\n", infos->xpmno.img);
+	// mlx_put_image_to_window(infos->mlx, infos->win, infos->xpmno.img, 0, 0);
 	return (1);
 }

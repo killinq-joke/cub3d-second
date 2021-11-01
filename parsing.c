@@ -6,7 +6,7 @@
 /*   By: ztouzri <ztouzri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 02:26:48 by ztouzri           #+#    #+#             */
-/*   Updated: 2021/10/24 14:24:35 by ztouzri          ###   ########.fr       */
+/*   Updated: 2021/10/31 12:15:02 by ztouzri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	ismapstart(char *line)
 
 void	printinfo(t_info *infos)
 {
-	printf("no == %d, so == %d, we == %d, ea == %d\n f == %d, c == %d\n", infos->no, infos->so, infos->we, infos->ea, infos->f, infos->c);
+	printf("no == %s, so == %d, we == %d, ea == %d\n f == %d, c == %d\n", infos->no, infos->so, infos->we, infos->ea, infos->f, infos->c);
 }
 
 int	goline(int fd, int nbline, char *filename)

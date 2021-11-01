@@ -6,7 +6,7 @@
 #    By: ztouzri <ztouzri@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/24 01:37:39 by ztouzri           #+#    #+#              #
-#    Updated: 2021/10/31 11:52:28 by ztouzri          ###   ########.fr        #
+#    Updated: 2021/10/31 18:33:27 by ztouzri          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ INCS	= cub3d.h
 $(NAME):	$(OBJS) $(INCS)
 	make -C libft/
 	mv libft/$(LIB) .
-	$(CC) $(CFLAGS) $(OBJS) $(LIB) -lmlx -framework OpenGL -framework AppKit -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) $(LIB) -I. -lmlx -framework OpenGL -framework AppKit -o $(NAME)
 
 .PHONY: all clean fclean re bonus
 

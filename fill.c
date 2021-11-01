@@ -6,7 +6,7 @@
 /*   By: ztouzri <ztouzri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 16:02:37 by ztouzri           #+#    #+#             */
-/*   Updated: 2021/10/12 16:59:48 by ztouzri          ###   ########.fr       */
+/*   Updated: 2021/10/31 12:11:22 by ztouzri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 t_bool	fillnorth(char *line, t_info *infos)
 {
 	int	i;
+	int	fd;
 
 	i = 2;
 	if (!ft_strncmp("NO ", line, 3))
@@ -25,9 +26,10 @@ t_bool	fillnorth(char *line, t_info *infos)
 			i++;
 		if (!dotxpmcheck(&line[i]))
 			return (FALSE);
-		infos->no = open(&line[i], O_RDONLY);
-		if (infos->no == -1)
+		fd = open(&line[i], O_RDONLY);
+		if (fd == -1)
 			return (FALSE);
+		infos->no = ft_strdup(&line[i]);
 		return (TRUE);
 	}
 	return (TRUE);
