@@ -6,7 +6,7 @@
 /*   By: ztouzri <ztouzri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 02:15:53 by ztouzri           #+#    #+#             */
-/*   Updated: 2021/10/12 15:43:32 by ztouzri          ###   ########.fr       */
+/*   Updated: 2021/11/02 10:22:41 by ztouzri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ t_bool	iscorrectmapline(char *line)
 	i = 0;
 	while (line[i])
 	{
-		printf("-----%s\n", &line[i]);
+		// printf("-----%s\n", &line[i]);
 		if (!ft_isin("10 NSEW", line[i]))
 			return (FALSE);
 		i++;

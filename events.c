@@ -6,7 +6,7 @@
 /*   By: ztouzri <ztouzri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 15:28:16 by ztouzri           #+#    #+#             */
-/*   Updated: 2021/11/01 13:53:44 by ztouzri          ###   ########.fr       */
+/*   Updated: 2021/11/04 12:18:41 by ztouzri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,5 @@ int	keyrelease(int key, t_info *infos)
 		infos->player.left = FALSE;
 	if (key == RIGHTARR)
 		infos->player.right = FALSE;
-	return (1);
-}
-
-int	motion(int x, int y, t_info *infos)
-{
-	(void)infos;
-	printf("x == %d y == %d\n", x, y);
 	return (1);
 }

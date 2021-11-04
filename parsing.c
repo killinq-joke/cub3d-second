@@ -6,7 +6,7 @@
 /*   By: ztouzri <ztouzri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 02:26:48 by ztouzri           #+#    #+#             */
-/*   Updated: 2021/11/01 15:06:06 by ztouzri          ###   ########.fr       */
+/*   Updated: 2021/11/04 12:19:33 by ztouzri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ t_info	*initinfo(void)
 	infos->so = 0;
 	infos->we = 0;
 	infos->ea = 0;
-	infos->f = 0;
-	infos->c = 0;
+	infos->f = -1;
+	infos->c = -1;
 	infos->map = NULL;
 	infos->scale = 0.5;
 	return (infos);
@@ -46,7 +46,7 @@ int	ismapstart(char *line)
 
 void	printinfo(t_info *infos)
 {
-	printf("no == %s, so == %d, we == %d, ea == %d\n f == %d, c == %d\n", infos->no, infos->so, infos->we, infos->ea, infos->f, infos->c);
+	printf("no == %s, so == %s, we == %s, ea == %s\n f == %d, c == %d\n", infos->no, infos->so, infos->we, infos->ea, infos->f, infos->c);
 }
 
 int	goline(int fd, int nbline, char *filename)
@@ -111,7 +111,7 @@ t_info	*parsinfo(int fd, char *filename, t_info *infos)
 	//add spaces so that every line in map is equally sized
 	while (ret > 0)
 	{
-		// free(line);
+		free(line);
 		tmp = infos->map;
 		infos->map = ft_join(infos->map, ft_padding(line, infos->maxx, ' '));
 		freesplit(tmp);

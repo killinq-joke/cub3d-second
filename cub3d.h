@@ -6,7 +6,7 @@
 /*   By: ztouzri <ztouzri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 01:35:50 by ztouzri           #+#    #+#             */
-/*   Updated: 2021/11/01 14:59:47 by ztouzri          ###   ########.fr       */
+/*   Updated: 2021/11/04 12:19:50 by ztouzri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@
 # define RIGHTARR 124
 # define ESC 53
 # define SHIFT 257
-# define WIDTH 1920
-# define HEIGHT 1080
-# define SIZE 32
+# define WIDTH 640
+# define HEIGHT 480
+# define SIZE 24
 # define NSPEED 4
 # define SSPEED 9
 
@@ -74,19 +74,20 @@ typedef struct s_pl {
 
 typedef struct s_img {
 	void	*img;
-	char	*addr;
+	int		*addr;
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
-	double	width;
-	double	height;
+	int		width;
+	int		height;
+	int		ty;	
 }				t_img;
 
 typedef struct s_info {
 	char	*no;
-	int		so;
-	int		we;
-	int		ea;
+	char	*so;
+	char	*we;
+	char	*ea;
 	int		f;
 	int		c;
 	char	**map;
@@ -113,6 +114,7 @@ typedef struct s_info {
 	t_ray	r;
 	t_side	side;
 	double	scale;
+	double	offset;
 }				t_info;
 
 //checker.c
@@ -140,6 +142,5 @@ int		printminimap(t_info *infos);
 int		destroy_window(t_info *infos);
 int		keypress(int key, t_info *infos);
 int		keyrelease(int key, t_info *infos);
-int		motion(int x, int y, t_info *infos);
 
 #endif

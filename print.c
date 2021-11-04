@@ -18,8 +18,19 @@ void	ft_putpixel(t_img *img, int x, int y, int color)
 
 	if (x >= 0 && x < img->width && y >= 0 && y < img->height)
 	{
-		dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
+		dst = (char *)img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
 		*(unsigned int *)dst = color;
+	}
+}
+
+void	ft_putimgpixel(unsigned int src, t_img *to, int x, int y)
+{
+	char	*dst;
+
+	if (x >= 0 && x < to->width && y >= 0 && y < to->height)
+	{
+		dst = (char *)to->addr + (y * to->line_length + x * (to->bits_per_pixel / 8));
+		*(unsigned int *)dst = src;
 	}
 }
 
@@ -63,6 +74,11 @@ void	dda(t_info *infos, double rayx, double rayy, t_bool vert)
         infos->y += infos->yinc;
 		i++;
     }
+	if (vert)
+		infos->offset = fmod(rayy, SIZE);
+        // infos->offset = fmod(rayy / SIZE, 1.0) * 64.0;
+	else
+		infos->offset = fmod(rayx, SIZE);
 }
 
 void	printvertupright(double angle, t_info *infos)
@@ -98,14 +114,14 @@ void	printhoriupright(double angle, t_info *infos)
 	infos->r.y -= infos->r.op;
 	infos->r.xa = SIZE;
 	infos->r.ya = -SIZE / tan(angletorad(angle));
-	infos->mapx = infos->r.x / SIZE + 0.000003;
-	infos->mapy = infos->r.y / SIZE + 0.000003;
+	infos->mapx = infos->r.x / SIZE + 0.000002;
+	infos->mapy = infos->r.y / SIZE + 0.000002;
 	while (infos->mapx > 0 && infos->mapx < infos->maxx && infos->mapy > 0 && infos->mapy < infos->maxy && infos->map[infos->mapy][infos->mapx] == '0')
 	{
 		infos->r.x += infos->r.xa;
 		infos->r.y += infos->r.ya;
-		infos->mapx = infos->r.x / SIZE + 0.000003;
-		infos->mapy = infos->r.y / SIZE + 0.000003;
+		infos->mapx = infos->r.x / SIZE + 0.000002;
+		infos->mapy = infos->r.y / SIZE + 0.000002;
 	}
 	infos->player.rayhx = infos->r.x;
 	infos->player.rayhy = infos->r.y;
@@ -339,7 +355,7 @@ void	printminimapblock(int y, int x, t_info *infos)
 		xstart = x * SIZE * infos->scale;
 		while (xstart < xend)
 		{
-			if (infos->map[y][x] == '1')
+			if (ft_isin("1 ", infos->map[y][x]))
 				ft_putpixel(&infos->minimap, xstart, ystart, 0x555555);
 			else
 				ft_putpixel(&infos->minimap, xstart, ystart, 0xFF0000);
@@ -358,7 +374,7 @@ int	printplayer(t_info *infos)
 
 	x = infos->player.x / SIZE;
 	y = infos->player.y / SIZE;
-	if (infos->player.w && infos->map[y][x] != '1')
+	if (infos->player.w)
 	{
 		y = (infos->player.y - cos(angletorad(infos->player.angle)) * infos->player.speed) / SIZE;
 		x = (infos->player.x + sin(angletorad(infos->player.angle)) * infos->player.speed) / SIZE;
@@ -368,7 +384,7 @@ int	printplayer(t_info *infos)
 			infos->player.x += sin(angletorad(infos->player.angle)) * infos->player.speed;
 		}
 	}
-	if (infos->player.s && infos->map[y][x] != '1')
+	if (infos->player.s)
 	{
 		y = (infos->player.y + cos(angletorad(infos->player.angle)) * infos->player.speed) / SIZE;
 		x = (infos->player.x - sin(angletorad(infos->player.angle)) * infos->player.speed) / SIZE;
@@ -378,7 +394,7 @@ int	printplayer(t_info *infos)
 			infos->player.x -= sin(angletorad(infos->player.angle)) * infos->player.speed;
 		}
 	}
-	if (infos->player.a && infos->map[y][x] != '1')
+	if (infos->player.a)
 	{
 		y = (infos->player.y - sin(angletorad(infos->player.angle)) * infos->player.speed) / SIZE;
 		x = (infos->player.x - cos(angletorad(infos->player.angle)) * infos->player.speed) / SIZE;
@@ -388,7 +404,7 @@ int	printplayer(t_info *infos)
 			infos->player.x -= cos(angletorad(infos->player.angle)) * infos->player.speed;
 		}
 	}
-	if (infos->player.d && infos->map[y][x] != '1')
+	if (infos->player.d)
 	{
 		y = (infos->player.y + sin(angletorad(infos->player.angle)) * infos->player.speed) / SIZE;
 		x = (infos->player.x + cos(angletorad(infos->player.angle)) * infos->player.speed) / SIZE;
@@ -446,13 +462,29 @@ void	printpoints(double angle, t_info *infos)
 		printleft(infos);
 }
 
+// void    find_pix(t_info *infos, t_img img, t_bool vert)
+// {
+//     if (vert)
+//         infos->offset = fmod(img.y / SIZE, 1.0) * img.width;
+// 		//ok
+//     else
+//         infos->offset = fmod(img.x / SIZE, 1.0) * img.width;
+// 		//ok
+//     img.ty = (1.0 - (double)(plan.end - img.i)    /  (double)plan.height) * (double)64.0;
+// 	//oooooooooook tia kapt
+// 	//height == end - start
+//     img.index = infos->offset + (img.ty * 64.0);
+// }
+
 void	showvertline(t_info *infos, double i, double distance)
 {
 	double	x;
 	int		y;
 	double	start;
+	double	j;
 	double	end;
 
+	// double height = SIZE / distance / tan(angletorad(30) / 2);
 	distance *= cos(angletorad(30 - i));
 	start = HEIGHT / 2 - (SIZE / distance * WIDTH / 2 / tan(angletorad(30)) / 2);
 	end = HEIGHT / 2 + (SIZE / distance * WIDTH / 2 / tan(angletorad(30)) / 2);
@@ -468,17 +500,18 @@ void	showvertline(t_info *infos, double i, double distance)
 		ft_putpixel(&infos->img, x, y, infos->f);
 		y++;
 	}
-	while (start < end)
+	j = 0;
+	while (j < end - start)
 	{
 		if (infos->side == NORTH)
-			ft_putpixel(&infos->img, x, start, 0x00FFFF);
+			ft_putpixel(&infos->img, x, j + start, infos->xpmno.addr[(int)(j * infos->xpmno.height / (int)(end - start) + (int)infos->offset * 128)]);
 		else if (infos->side == SOUTH)
-			ft_putpixel(&infos->img, x, start, 0x0FF000);
+			ft_putpixel(&infos->img, x, j + start, infos->xpmso.addr[(int)(j * infos->xpmso.height / (int)(end - start) + (int)infos->offset * 128)]);
 		else if (infos->side == WEST)
-			ft_putpixel(&infos->img, x, start, 0xFFFFF0);
+			ft_putpixel(&infos->img, x, j + start, infos->xpmwe.addr[(int)(j * infos->xpmwe.height / (int)(end - start) + (int)infos->offset * 128)]);
 		else
-			ft_putpixel(&infos->img, x, start, 0x0000FF);
-		start++;
+			ft_putpixel(&infos->img, x, j + start, infos->xpmea.addr[(int)(j * infos->xpmea.height / (int)(end - start) + (int)infos->offset * 128)]);
+		j++;
 	}
 }
 
@@ -503,6 +536,7 @@ void	showfps(t_info *infos)
 			else
 				infos->side = SOUTH;
 			dda(infos, infos->player.rayvx, infos->player.rayvy, TRUE);
+			infos->offset = fmod(infos->player.rayvx, SIZE);
 			showvertline(infos, i, distance2(TRUE, infos));
 		}
 		else
@@ -512,6 +546,7 @@ void	showfps(t_info *infos)
 			else
 				infos->side = WEST;
 			dda(infos, infos->player.rayhx, infos->player.rayhy, FALSE);
+			infos->offset = fmod(infos->player.rayhy, SIZE);
 			showvertline(infos, i, distance2(FALSE, infos));
 		}
 		i += 60.0 / WIDTH;

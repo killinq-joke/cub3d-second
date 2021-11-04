@@ -39,7 +39,7 @@ t_bool	fillfloor(char *line, t_info *infos)
 	i = 1;
 	if (!ft_strncmp("F ", line, 2))
 	{
-		if (infos->f || !infos->ea || !infos->we || !infos->so || !infos->no)
+		if (infos->f != -1 || !infos->ea || !infos->we || !infos->so || !infos->no)
 			return (FALSE);
 		while (line[i] == ' ')
 			i++;
@@ -58,13 +58,13 @@ t_bool	fillceil(char *line, t_info *infos)
 	i = 1;
 	if (!ft_strncmp("C ", line, 2))
 	{
-		if (infos->c || !infos->f || !infos->ea
+		if (infos->c != -1 || infos->f == -1 || !infos->ea
 			|| !infos->we || !infos->so || !infos->no)
 			return (FALSE);
 		while (line[i] == ' ')
 			i++;
 		infos->c = gethex(&line[i]);
-		printf("hex = %x = %d\n", gethex(&line[i]), gethex(&line[i]));
+		// printf("hex = %x = %d\n", gethex(&line[i]), gethex(&line[i]));
 		if (infos->c == -1)
 			return (FALSE);
 		return (TRUE);
