@@ -23,16 +23,16 @@ void	ft_putpixel(t_img *img, int x, int y, int color)
 	}
 }
 
-void	ft_putimgpixel(unsigned int src, t_img *to, int x, int y)
-{
-	char	*dst;
+// void	ft_putimgpixel(unsigned int src, t_img *to, int x, int y)
+// {
+// 	char	*dst;
 
-	if (x >= 0 && x < to->width && y >= 0 && y < to->height)
-	{
-		dst = (char *)to->addr + (y * to->line_length + x * (to->bits_per_pixel / 8));
-		*(unsigned int *)dst = src;
-	}
-}
+// 	if (x >= 0 && x < to->width && y >= 0 && y < to->height)
+// 	{
+// 		dst = (char *)to->addr + (y * to->line_length + x * (to->bits_per_pixel / 8));
+// 		*(unsigned int *)dst = src;
+// 	}
+// }
 
 double	angletorad(double angle)
 {
@@ -462,20 +462,6 @@ void	printpoints(double angle, t_info *infos)
 		printleft(infos);
 }
 
-// void    find_pix(t_info *infos, t_img img, t_bool vert)
-// {
-//     if (vert)
-//         infos->offset = fmod(img.y / SIZE, 1.0) * img.width;
-// 		//ok
-//     else
-//         infos->offset = fmod(img.x / SIZE, 1.0) * img.width;
-// 		//ok
-//     img.ty = (1.0 - (double)(plan.end - img.i)    /  (double)plan.height) * (double)64.0;
-// 	//oooooooooook tia kapt
-// 	//height == end - start
-//     img.index = infos->offset + (img.ty * 64.0);
-// }
-
 void	showvertline(t_info *infos, double i, double distance)
 {
 	double	x;
@@ -484,34 +470,38 @@ void	showvertline(t_info *infos, double i, double distance)
 	double	j;
 	double	end;
 
-	// double height = SIZE / distance / tan(angletorad(30) / 2);
 	distance *= cos(angletorad(30 - i));
 	start = HEIGHT / 2 - (SIZE / distance * WIDTH / 2 / tan(angletorad(30)) / 2);
 	end = HEIGHT / 2 + (SIZE / distance * WIDTH / 2 / tan(angletorad(30)) / 2);
 	x = round(i * WIDTH / 60.0);
 	y = 0;
-	while (y < HEIGHT / 2)
+	while (y < start)
 	{
 		ft_putpixel(&infos->img, x, y, infos->c);
-		y++;
-	}
-	while (y < HEIGHT)
-	{
-		ft_putpixel(&infos->img, x, y, infos->f);
 		y++;
 	}
 	j = 0;
 	while (j < end - start)
 	{
 		if (infos->side == NORTH)
-			ft_putpixel(&infos->img, x, j + start, infos->xpmno.addr[(int)(j * infos->xpmno.height / (int)(end - start) + (int)infos->offset * 128)]);
+		{
+			int *a = (int *)infos->xpmno.addr;
+			ft_putpixel(&infos->img, x, j + start, a[(int)(j / (end - start) * infos->xpmno.height * infos->xpmno.width + infos->offset / SIZE * infos->xpmno.height)]);
+			printf("o/s*h == %f width == %d height == %d\n", infos->offset / SIZE * infos->xpmno.height, infos->xpmno.width, infos->xpmno.height);
+		}
 		else if (infos->side == SOUTH)
-			ft_putpixel(&infos->img, x, j + start, infos->xpmso.addr[(int)(j * infos->xpmso.height / (int)(end - start) + (int)infos->offset * 128)]);
+			ft_putpixel(&infos->img, x, j + start, 0xFFFFFF);
 		else if (infos->side == WEST)
-			ft_putpixel(&infos->img, x, j + start, infos->xpmwe.addr[(int)(j * infos->xpmwe.height / (int)(end - start) + (int)infos->offset * 128)]);
+			ft_putpixel(&infos->img, x, j + start, 0xFFFFFF);
 		else
-			ft_putpixel(&infos->img, x, j + start, infos->xpmea.addr[(int)(j * infos->xpmea.height / (int)(end - start) + (int)infos->offset * 128)]);
+			ft_putpixel(&infos->img, x, j + start, 0xFFFFFF);
 		j++;
+	}
+	y = end;
+	while (y < HEIGHT)
+	{
+		ft_putpixel(&infos->img, x, y, infos->f);
+		y++;
 	}
 }
 
@@ -520,8 +510,8 @@ void	showfps(t_info *infos)
 	double	i;
 	double	angle;
 
-	i = 0;
-	while (i < 60)
+	i = 29;
+	while (i < 30)
 	{
 		angle = infos->player.angle + i - 30;
 		if (angle < 0.0)
@@ -574,6 +564,6 @@ int	printminimap(t_info *infos)
 	mlx_put_image_to_window(infos->mlx, infos->win, infos->img.img, 0, 0);
 	mlx_put_image_to_window(infos->mlx, infos->win, infos->minimap.img, 0, 0);
 	// printf("\n", infos->xpmno.img);
-	// mlx_put_image_to_window(infos->mlx, infos->win, infos->xpmno.img, 0, 0);
+	mlx_put_image_to_window(infos->mlx, infos->win, infos->xpmno.img, 0, 0);
 	return (1);
 }
